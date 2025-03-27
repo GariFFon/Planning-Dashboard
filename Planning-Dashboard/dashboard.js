@@ -21,6 +21,20 @@ function initializeSidebar() {
             this.classList.add('active');
         });
     });
+    
+    // Handle logout click
+    const logoutBtn = document.querySelector('.logout');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            if (confirm('Are you sure you want to logout?')) {
+                // Continue with logout
+                return true;
+            } else {
+                e.preventDefault();
+                return false;
+            }
+        });
+    }
 }
 
 // Task checkboxes
@@ -59,7 +73,7 @@ function initializeUserProfile() {
         <ul>
             <li><a href="#"><i class="fas fa-user-circle"></i> My Profile</a></li>
             <li><a href="#"><i class="fas fa-cog"></i> Account Settings</a></li>
-            <li><a href="Home.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            <li><a href="login-dashboard.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
     `;
     
