@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventPro - Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>EventPro</h1>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active">
+                        <a href="#dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#events">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Events</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tasks">
+                            <i class="fas fa-tasks"></i>
+                            <span>Tasks</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#clients">
+                            <i class="fas fa-users"></i>
+                            <span>Clients</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#vendors">
+                            <i class="fas fa-store"></i>
+                            <span>Vendors</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#budget">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Budget</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#reports">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#settings">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="Home.html" class="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Navigation Bar -->
+            <header class="top-navbar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <div class="user-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </button>
+                    <div class="user-profile">
+                        <img src="https://source.unsplash.com/random/100x100/?portrait" alt="User Profile">
+                        <span>John Doe</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Overview -->
+            <section class="dashboard-overview">
+                <h2>Dashboard Overview</h2>
+                
+                <!-- Stats Cards -->
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Active Events</h3>
+                            <p class="stat-number">8</p>
+                            <p class="stat-info">3 upcoming this week</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Pending Tasks</h3>
+                            <p class="stat-number">24</p>
+                            <p class="stat-info">7 due today</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Total Budget</h3>
+                            <p class="stat-number">$45,850</p>
+                            <p class="stat-info">$12,500 spent</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Total Clients</h3>
+                            <p class="stat-number">12</p>
+                            <p class="stat-info">3 new this month</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Events by Category</h3>
+                            <div class="chart-actions">
+                                <button><i class="fas fa-download"></i></button>
+                                <button><i class="fas fa-ellipsis-v"></i></button>
+                            </div>
+                        </div>
+                        <div class="chart-content" id="eventTypesChart">
+                            <!-- Chart will be rendered here via JS -->
+                            <div class="placeholder-chart">
+                                <div class="chart-segment" style="height: 60%; background-color: #6a3093;"></div>
+                                <div class="chart-segment" style="height: 25%; background-color: #a855f7;"></div>
+                                <div class="chart-segment" style="height: 15%; background-color: #c084fc;"></div>
+                            </div>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background-color: #6a3093;"></span>
+                                    <span>Weddings (60%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background-color: #a855f7;"></span>
+                                    <span>Corporate (25%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background-color: #c084fc;"></span>
+                                    <span>Special Events (15%)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Monthly Revenue</h3>
+                            <div class="chart-actions">
+                                <button><i class="fas fa-download"></i></button>
+                                <button><i class="fas fa-ellipsis-v"></i></button>
+                            </div>
+                        </div>
+                        <div class="chart-content" id="revenueChart">
+                            <!-- Chart will be rendered here via JS -->
+                            <div class="placeholder-bar-chart">
+                                <div class="month-bar">
+                                    <div class="bar-value" style="height: 40%"></div>
+                                    <span>Jan</span>
+                                </div>
+                                <div class="month-bar">
+                                    <div class="bar-value" style="height: 65%"></div>
+                                    <span>Feb</span>
+                                </div>
+                                <div class="month-bar">
+                                    <div class="bar-value" style="height: 45%"></div>
+                                    <span>Mar</span>
+                                </div>
+                                <div class="month-bar">
+                                    <div class="bar-value" style="height: 80%"></div>
+                                    <span>Apr</span>
+                                </div>
+                                <div class="month-bar">
+                                    <div class="bar-value" style="height: 60%"></div>
+                                    <span>May</span>
+                                </div>
+                                <div class="month-bar">
+                                    <div class="bar-value" style="height: 75%"></div>
+                                    <span>Jun</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Events & Tasks -->
+                <div class="dashboard-lists">
+                    <div class="list-card">
+                        <div class="list-header">
+                            <h3>Upcoming Events</h3>
+                            <a href="#" class="view-all">View All</a>
+                        </div>
+                        <div class="list-content">
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <span class="day">15</span>
+                                    <span class="month">JUN</span>
+                                </div>
+                                <div class="event-details">
+                                    <h4>Johnson Wedding</h4>
+                                    <p>Golden Palace Hall</p>
+                                    <div class="event-progress">
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 85%"></div>
+                                        </div>
+                                        <span>85% Complete</span>
+                                    </div>
+                                </div>
+                                <div class="event-actions">
+                                    <button><i class="fas fa-edit"></i></button>
+                                </div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <span class="day">22</span>
+                                    <span class="month">JUN</span>
+                                </div>
+                                <div class="event-details">
+                                    <h4>Tech Conference 2024</h4>
+                                    <p>Convention Center</p>
+                                    <div class="event-progress">
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 60%"></div>
+                                        </div>
+                                        <span>60% Complete</span>
+                                    </div>
+                                </div>
+                                <div class="event-actions">
+                                    <button><i class="fas fa-edit"></i></button>
+                                </div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <span class="day">30</span>
+                                    <span class="month">JUN</span>
+                                </div>
+                                <div class="event-details">
+                                    <h4>Charity Gala Dinner</h4>
+                                    <p>Sunset Hotel</p>
+                                    <div class="event-progress">
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 40%"></div>
+                                        </div>
+                                        <span>40% Complete</span>
+                                    </div>
+                                </div>
+                                <div class="event-actions">
+                                    <button><i class="fas fa-edit"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-card">
+                        <div class="list-header">
+                            <h3>Recent Tasks</h3>
+                            <a href="#" class="view-all">View All</a>
+                        </div>
+                        <div class="list-content">
+                            <div class="task-item">
+                                <div class="task-status">
+                                    <input type="checkbox" id="task1">
+                                    <label for="task1"></label>
+                                </div>
+                                <div class="task-details">
+                                    <h4>Contact florist for Johnson Wedding</h4>
+                                    <p>Due: June 10, 2024</p>
+                                </div>
+                                <div class="task-priority high-priority">
+                                    <span>High</span>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-status">
+                                    <input type="checkbox" id="task2">
+                                    <label for="task2"></label>
+                                </div>
+                                <div class="task-details">
+                                    <h4>Finalize Tech Conference speakers</h4>
+                                    <p>Due: June 12, 2024</p>
+                                </div>
+                                <div class="task-priority medium-priority">
+                                    <span>Medium</span>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-status">
+                                    <input type="checkbox" id="task3">
+                                    <label for="task3"></label>
+                                </div>
+                                <div class="task-details">
+                                    <h4>Send invitations for Charity Gala</h4>
+                                    <p>Due: June 15, 2024</p>
+                                </div>
+                                <div class="task-priority high-priority">
+                                    <span>High</span>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-status">
+                                    <input type="checkbox" id="task4">
+                                    <label for="task4"></label>
+                                </div>
+                                <div class="task-details">
+                                    <h4>Book catering for Smith Anniversary</h4>
+                                    <p>Due: June 18, 2024</p>
+                                </div>
+                                <div class="task-priority low-priority">
+                                    <span>Low</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html> 
