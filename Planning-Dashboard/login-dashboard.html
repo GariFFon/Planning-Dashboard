@@ -4,96 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventPro - Login</title>
-    <link rel="stylesheet" href="login-dashboard.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#6a3093',
+                            dark: '#502875',
+                            light: '#a855f7',
+                            lightest: '#f3e8ff',
+                        },
+                        accent: '#8e44ad',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-    <div class="login-container">
-        <div class="brand-section">
-            <div class="brand-content">
-                <div class="logo">
-                    <h1>EventPro</h1>
+<body class="font-sans h-full bg-gradient-to-br from-indigo-50 to-purple-100 text-gray-800">
+    <div class="flex h-screen">
+        <div class="w-5/12 bg-gradient-to-br from-primary to-primary-dark text-white relative flex flex-col justify-center overflow-hidden">
+            <div class="absolute inset-0 bg-cover bg-center opacity-15" style="background-image: url('https://source.unsplash.com/random/1200x900/?event')"></div>
+            <div class="p-12 relative z-10">
+                <div class="logo mb-6">
+                    <h1 class="text-4xl font-bold">EventPro</h1>
                 </div>
-                <div class="tagline">
-                    <h2>Event Planning Dashboard</h2>
-                    <p>Manage your events efficiently with our comprehensive planning tools</p>
+                <div class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-3">Event Planning Dashboard</h2>
+                    <p class="text-lg opacity-90 mb-10">Manage your events efficiently with our comprehensive planning tools</p>
                 </div>
-                <div class="features">
-                    <div class="feature-item">
-                        <i class="fas fa-calendar-check"></i>
+                <div class="space-y-5">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-white bg-opacity-15 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
                         <span>Track all your events in one place</span>
                     </div>
-                    <div class="feature-item">
-                        <i class="fas fa-tasks"></i>
+                    <div class="flex items-center gap-4">
+                        <div class="bg-white bg-opacity-15 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fas fa-tasks"></i>
+                        </div>
                         <span>Manage tasks and assignments</span>
                     </div>
-                    <div class="feature-item">
-                        <i class="fas fa-chart-line"></i>
+                    <div class="flex items-center gap-4">
+                        <div class="bg-white bg-opacity-15 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
                         <span>Monitor budgets and performance</span>
                     </div>
-                    <div class="feature-item">
-                        <i class="fas fa-users"></i>
+                    <div class="flex items-center gap-4">
+                        <div class="bg-white bg-opacity-15 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fas fa-users"></i>
+                        </div>
                         <span>Coordinate with clients and vendors</span>
                     </div>
                 </div>
             </div>
-            <div class="brand-image"></div>
         </div>
 
-        <div class="auth-section">
-            <div class="auth-container">
-                <div class="auth-header">
-                    <div class="auth-tabs">
-                        <button class="tab-btn active" id="loginTab">Login</button>
-                        <button class="tab-btn" id="registerTab">Register</button>
+        <div class="w-7/12 flex flex-col overflow-y-auto">
+            <div class="max-w-md w-full mx-auto p-12 flex-1 flex flex-col justify-center">
+                <div class="mb-8">
+                    <div class="flex border-b border-gray-200">
+                        <button class="tab-btn active py-3 px-6 font-semibold text-primary border-b-2 border-primary" id="loginTab">Login</button>
+                        <button class="tab-btn py-3 px-6 font-semibold text-gray-500" id="registerTab">Register</button>
                     </div>
                 </div>
 
                 <div class="auth-forms">
                     <!-- Login Form -->
-                    <form id="loginForm" class="auth-form active">
-                        <div class="form-title">
-                            <h3>Welcome back</h3>
-                            <p>Sign in to continue to your account</p>
+                    <form id="loginForm" class="auth-form block animate-fadeIn">
+                        <div class="mb-8">
+                            <h3 class="text-2xl font-semibold mb-2">Welcome back</h3>
+                            <p class="text-gray-500">Sign in to continue to your account</p>
                         </div>
-                        <div class="form-group">
-                            <label for="loginEmail">Email</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-envelope"></i>
-                                <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                        <div class="mb-6">
+                            <label for="loginEmail" class="block mb-2 font-medium">Email</label>
+                            <div class="relative">
+                                <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                                <input type="email" id="loginEmail" placeholder="Enter your email" required
+                                    class="w-full p-3 pl-10 rounded-lg border border-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-10">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="loginPassword">Password</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-lock"></i>
-                                <input type="password" id="loginPassword" placeholder="Enter your password" required>
-                                <button type="button" class="toggle-password">
+                        <div class="mb-6">
+                            <label for="loginPassword" class="block mb-2 font-medium">Password</label>
+                            <div class="relative">
+                                <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                                <input type="password" id="loginPassword" placeholder="Enter your password" required
+                                    class="w-full p-3 pl-10 rounded-lg border border-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-10">
+                                <button type="button" class="toggle-password absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 bg-transparent border-none">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </div>
                         </div>
-                        <div class="form-options">
-                            <div class="remember-me">
-                                <input type="checkbox" id="rememberMe">
-                                <label for="rememberMe">Remember me</label>
+                        <div class="flex justify-between items-center mb-6">
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="rememberMe" class="w-4 h-4 accent-primary">
+                                <label for="rememberMe" class="text-sm">Remember me</label>
                             </div>
-                            <a href="#" class="forgot-password">Forgot password?</a>
+                            <a href="#" class="text-primary text-sm">Forgot password?</a>
                         </div>
-                        <button type="submit" class="submit-btn">
+                        <button type="submit" class="w-full bg-primary text-white py-3 px-4 rounded-lg flex justify-center items-center gap-2 hover:bg-primary-light transition-colors duration-300 relative">
                             <span>Sign In</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
-                        <div class="social-login">
-                            <p>Or sign in with</p>
-                            <div class="social-buttons">
-                                <button type="button" class="social-btn google">
+                        <div class="mt-8 text-center">
+                            <p class="text-gray-500 relative before:content-[''] before:absolute before:w-1/3 before:h-px before:bg-gray-200 before:left-0 before:top-1/2 after:content-[''] after:absolute after:w-1/3 after:h-px after:bg-gray-200 after:right-0 after:top-1/2">Or sign in with</p>
+                            <div class="flex justify-center gap-4 mt-4">
+                                <button type="button" class="social-btn google text-red-600 text-xl hover:text-primary transition-colors">
                                     <i class="fab fa-google"></i>
                                 </button>
-                                <button type="button" class="social-btn facebook">
+                                <button type="button" class="social-btn facebook text-blue-600 text-xl hover:text-primary transition-colors">
                                     <i class="fab fa-facebook-f"></i>
                                 </button>
-                                <button type="button" class="social-btn apple">
+                                <button type="button" class="social-btn apple text-black text-xl hover:text-primary transition-colors">
                                     <i class="fab fa-apple"></i>
                                 </button>
                             </div>
@@ -101,71 +131,103 @@
                     </form>
 
                     <!-- Register Form -->
-                    <form id="registerForm" class="auth-form">
-                        <div class="form-title">
-                            <h3>Create account</h3>
-                            <p>Register to start planning your events</p>
+                    <form id="registerForm" class="auth-form hidden animate-fadeIn">
+                        <div class="mb-8">
+                            <h3 class="text-2xl font-semibold mb-2">Create account</h3>
+                            <p class="text-gray-500">Register to start planning your events</p>
                         </div>
-                        <div class="form-group">
-                            <label for="registerName">Full Name</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-user"></i>
-                                <input type="text" id="registerName" placeholder="Enter your full name" required>
+                        <div class="mb-6">
+                            <label for="registerName" class="block mb-2 font-medium">Full Name</label>
+                            <div class="relative">
+                                <i class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                                <input type="text" id="registerName" placeholder="Enter your full name" required
+                                    class="w-full p-3 pl-10 rounded-lg border border-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-10">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="registerEmail">Email</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-envelope"></i>
-                                <input type="email" id="registerEmail" placeholder="Enter your email" required>
+                        <div class="mb-6">
+                            <label for="registerEmail" class="block mb-2 font-medium">Email</label>
+                            <div class="relative">
+                                <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                                <input type="email" id="registerEmail" placeholder="Enter your email" required
+                                    class="w-full p-3 pl-10 rounded-lg border border-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-10">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="registerPassword">Password</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-lock"></i>
-                                <input type="password" id="registerPassword" placeholder="Create a password" required>
-                                <button type="button" class="toggle-password">
+                        <div class="mb-6">
+                            <label for="registerPassword" class="block mb-2 font-medium">Password</label>
+                            <div class="relative">
+                                <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                                <input type="password" id="registerPassword" placeholder="Create a password" required
+                                    class="w-full p-3 pl-10 rounded-lg border border-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-10">
+                                <button type="button" class="toggle-password absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 bg-transparent border-none">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </div>
-                            <div class="password-strength-meter">
-                                <div class="strength-section"></div>
-                                <div class="strength-section"></div>
-                                <div class="strength-section"></div>
-                                <div class="strength-section"></div>
+                            <div class="password-strength-meter flex gap-1.5 mt-2">
+                                <div class="strength-section h-1 flex-1 bg-gray-200 rounded"></div>
+                                <div class="strength-section h-1 flex-1 bg-gray-200 rounded"></div>
+                                <div class="strength-section h-1 flex-1 bg-gray-200 rounded"></div>
+                                <div class="strength-section h-1 flex-1 bg-gray-200 rounded"></div>
                             </div>
-                            <p class="password-feedback">Password should be at least 8 characters</p>
+                            <p class="password-feedback text-xs text-gray-500 mt-1">Password should be at least 8 characters</p>
                         </div>
-                        <div class="form-group">
-                            <label for="confirmPassword">Confirm Password</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-lock"></i>
-                                <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                        <div class="mb-6">
+                            <label for="confirmPassword" class="block mb-2 font-medium">Confirm Password</label>
+                            <div class="relative">
+                                <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                                <input type="password" id="confirmPassword" placeholder="Confirm your password" required
+                                    class="w-full p-3 pl-10 rounded-lg border border-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-10">
                             </div>
                         </div>
-                        <div class="terms-agreement">
-                            <input type="checkbox" id="agreeTerms" required>
-                            <label for="agreeTerms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                        <div class="flex items-start gap-3 mb-6">
+                            <input type="checkbox" id="agreeTerms" required class="mt-1 w-4 h-4 accent-primary">
+                            <label for="agreeTerms" class="text-sm text-gray-500">I agree to the <a href="#" class="text-primary font-medium">Terms of Service</a> and <a href="#" class="text-primary font-medium">Privacy Policy</a></label>
                         </div>
-                        <button type="submit" class="submit-btn">
+                        <button type="submit" class="w-full bg-primary text-white py-3 px-4 rounded-lg flex justify-center items-center gap-2 hover:bg-primary-light transition-colors duration-300 relative">
                             <span>Create Account</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </form>
                 </div>
             </div>
-            <div class="auth-footer">
+            <div class="py-6 px-12 border-t border-gray-200 flex justify-between items-center text-sm text-gray-500">
                 <p>© 2024 EventPro. All rights reserved.</p>
-                <div class="footer-links">
-                    <a href="#">Terms</a>
-                    <a href="#">Privacy</a>
-                    <a href="#">Support</a>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-primary transition-colors">Terms</a>
+                    <a href="#" class="hover:text-primary transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-primary transition-colors">Support</a>
                 </div>
             </div>
         </div>
     </div>
 
+    <style>
+        .tab-btn.active {
+            color: theme('colors.primary.DEFAULT');
+            border-bottom-color: theme('colors.primary.DEFAULT');
+        }
+        
+        .auth-form {
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .strength-section.weak {
+            background-color: theme('colors.danger');
+        }
+        
+        .strength-section.medium {
+            background-color: theme('colors.warning');
+        }
+        
+        .strength-section.strong {
+            background-color: theme('colors.success');
+        }
+    </style>
+    
     <script src="login-dashboard.js"></script>
 </body>
 </html> 

@@ -1,5 +1,8 @@
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
+    // Check if user is logged in
+    checkLoginState();
+
     // Initialize the dashboard components
     initializeSidebar();
     initializeTaskCheckboxes();
@@ -8,52 +11,106 @@ document.addEventListener('DOMContentLoaded', function() {
     simulateChartData();
 });
 
+// Check login state and update UI accordingly
+function checkLoginState() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    // Update the selector to match the Tailwind structure in the HTML
+    const sidebarFooter = document.querySelector('aside > div:last-child');
+    const userActions = document.getElementById('userActions');
+    
+    if (!sidebarFooter) {
+        console.error('Sidebar footer element not found');
+        return;
+    }
+    
+    if (isLoggedIn) {
+        // User is logged in, show logout button
+        sidebarFooter.innerHTML = `
+            <a href="login-dashboard.html" class="logout flex items-center opacity-70 hover:opacity-100 transition-all">
+                <i class="fas fa-sign-out-alt mr-3"></i>
+                <span>Logout</span>
+            </a>
+        `;
+        
+        // Enable user profile dropdown and notifications
+        if (userActions) {
+            userActions.classList.remove('hidden');
+        }
+    } else {
+        // User is not logged in, show login button
+        sidebarFooter.innerHTML = `
+            <a href="login-dashboard.html" class="login flex items-center opacity-70 hover:opacity-100 transition-all">
+                <i class="fas fa-sign-in-alt mr-3"></i>
+                <span>Login</span>
+            </a>
+        `;
+        
+        // Hide user profile dropdown and notifications when not logged in
+        if (userActions) {
+            userActions.classList.add('hidden');
+        }
+    }
+
+    // Add click event for logout button - only if logged in
+    if (isLoggedIn) {
+        const logoutBtn = document.querySelector('.fa-sign-out-alt')?.parentElement;
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                if (confirm('Are you sure you want to logout?')) {
+                    localStorage.setItem('isLoggedIn', 'false');
+                    return true;
+                } else {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        }
+    }
+}
+
 // Sidebar functionality
 function initializeSidebar() {
-    const sidebarItems = document.querySelectorAll('.sidebar-nav li');
+    // Update selector to match the Tailwind structure
+    const sidebarItems = document.querySelectorAll('aside nav ul li a');
     
     sidebarItems.forEach(item => {
-        item.addEventListener('click', function() {
+        item.addEventListener('click', function(e) {
             // Remove active class from all items
-            sidebarItems.forEach(i => i.classList.remove('active'));
+            sidebarItems.forEach(i => {
+                i.classList.remove('border-l-4', 'border-primary-light', 'bg-white', 'bg-opacity-15');
+                i.classList.add('border-l-0');
+            });
             
             // Add active class to clicked item
-            this.classList.add('active');
+            this.classList.add('border-l-4', 'border-primary-light', 'bg-white', 'bg-opacity-15');
+            this.classList.remove('border-l-0');
         });
     });
-    
-    // Handle logout click
-    const logoutBtn = document.querySelector('.logout');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function(e) {
-            if (confirm('Are you sure you want to logout?')) {
-                // Continue with logout
-                return true;
-            } else {
-                e.preventDefault();
-                return false;
-            }
-        });
-    }
 }
 
 // Task checkboxes
 function initializeTaskCheckboxes() {
-    const checkboxes = document.querySelectorAll('.task-status input[type="checkbox"]');
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', function() {
-            const taskItem = this.closest('.task-item');
+            const taskItem = this.closest('.flex');
+            const taskLabel = this.nextElementSibling;
+            const taskTitle = taskItem.querySelector('h4');
             
             if (this.checked) {
-                taskItem.style.opacity = '0.6';
-                taskItem.querySelector('.task-details h4').style.textDecoration = 'line-through';
+                taskItem.classList.add('opacity-60');
+                taskTitle.classList.add('line-through');
+                taskLabel.classList.add('bg-primary');
+                taskLabel.classList.add('after:content-["✓"]', 'after:absolute', 'after:text-white', 'after:text-sm', 'after:left-1', 'after:top-0');
                 
                 // Simulate saving to server
                 showToast('Task marked as complete');
             } else {
-                taskItem.style.opacity = '1';
-                taskItem.querySelector('.task-details h4').style.textDecoration = 'none';
+                taskItem.classList.remove('opacity-60');
+                taskTitle.classList.remove('line-through');
+                taskLabel.classList.remove('bg-primary');
+                taskLabel.classList.remove('after:content-["✓"]', 'after:absolute', 'after:text-white', 'after:text-sm', 'after:left-1', 'after:top-0');
                 
                 // Simulate saving to server
                 showToast('Task marked as incomplete');
@@ -68,33 +125,33 @@ function initializeUserProfile() {
     
     // Create dropdown menu
     const dropdown = document.createElement('div');
-    dropdown.className = 'profile-dropdown';
+    dropdown.className = 'absolute top-full right-0 bg-white bg-opacity-80 backdrop-blur-md rounded-xl shadow-lg border border-white border-opacity-30 w-[200px] z-50 mt-2 overflow-hidden hidden';
     dropdown.innerHTML = `
         <ul>
-            <li><a href="#"><i class="fas fa-user-circle"></i> My Profile</a></li>
-            <li><a href="#"><i class="fas fa-cog"></i> Account Settings</a></li>
-            <li><a href="login-dashboard.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            <li class="border-b border-gray-200 border-opacity-30"><a href="#" class="px-4 py-3 flex items-center gap-3 text-gray-800 hover:bg-gray-200 hover:bg-opacity-30 transition-colors"><i class="fas fa-user-circle"></i> My Profile</a></li>
+            <li class="border-b border-gray-200 border-opacity-30"><a href="#" class="px-4 py-3 flex items-center gap-3 text-gray-800 hover:bg-gray-200 hover:bg-opacity-30 transition-colors"><i class="fas fa-cog"></i> Account Settings</a></li>
+            <li><a href="login-dashboard.html" class="px-4 py-3 flex items-center gap-3 text-gray-800 hover:bg-gray-200 hover:bg-opacity-30 transition-colors"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
     `;
     
     // Add dropdown to the DOM but hide it initially
-    dropdown.style.display = 'none';
+    userProfile.classList.add('relative');
     userProfile.appendChild(dropdown);
     
     // Toggle dropdown on click
     userProfile.addEventListener('click', function(e) {
         e.stopPropagation();
         
-        if (dropdown.style.display === 'none') {
-            dropdown.style.display = 'block';
+        if (dropdown.classList.contains('hidden')) {
+            dropdown.classList.remove('hidden');
         } else {
-            dropdown.style.display = 'none';
+            dropdown.classList.add('hidden');
         }
     });
     
     // Close dropdown when clicking elsewhere
     document.addEventListener('click', function() {
-        dropdown.style.display = 'none';
+        dropdown.classList.add('hidden');
     });
 }
 
@@ -102,70 +159,81 @@ function initializeUserProfile() {
 function initializeNotifications() {
     const notificationBtn = document.querySelector('.notification-btn');
     
+    if (!notificationBtn) {
+        console.warn('Notification button not found');
+        return;
+    }
+    
     // Create notifications dropdown
     const notificationsDropdown = document.createElement('div');
-    notificationsDropdown.className = 'notifications-dropdown';
+    notificationsDropdown.className = 'absolute top-full right-[-100px] bg-white bg-opacity-80 backdrop-blur-md rounded-xl shadow-lg border border-white border-opacity-30 w-[300px] z-50 mt-2 overflow-hidden hidden';
     notificationsDropdown.innerHTML = `
-        <div class="dropdown-header">
-            <h3>Notifications</h3>
-            <button class="mark-all-read">Mark all as read</button>
+        <div class="flex justify-between items-center p-4 border-b border-gray-200 border-opacity-30">
+            <h3 class="text-base font-medium text-gray-800">Notifications</h3>
+            <button class="text-xs text-primary bg-transparent border-0 cursor-pointer">Mark all as read</button>
         </div>
-        <ul>
-            <li class="unread">
-                <div class="notification-icon"><i class="fas fa-calendar-alt"></i></div>
-                <div class="notification-content">
-                    <p>New event "Johnson Wedding" has been added</p>
-                    <span class="notification-time">2 hours ago</span>
+        <ul class="max-h-[300px] overflow-y-auto">
+            <li class="p-4 flex gap-4 border-b border-gray-200 border-opacity-30 hover:bg-gray-200 hover:bg-opacity-30 transition-colors bg-primary-lightest bg-opacity-30">
+                <div class="w-9 h-9 bg-primary-lightest bg-opacity-20 rounded-full flex items-center justify-center text-primary">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div>
+                    <p class="text-sm mb-1">New event "Johnson Wedding" has been added</p>
+                    <span class="text-xs text-gray-500">2 hours ago</span>
                 </div>
             </li>
-            <li class="unread">
-                <div class="notification-icon"><i class="fas fa-exclamation-triangle"></i></div>
-                <div class="notification-content">
-                    <p>Task "Contact florist" is due tomorrow</p>
-                    <span class="notification-time">5 hours ago</span>
+            <li class="p-4 flex gap-4 border-b border-gray-200 border-opacity-30 hover:bg-gray-200 hover:bg-opacity-30 transition-colors bg-primary-lightest bg-opacity-30">
+                <div class="w-9 h-9 bg-primary-lightest bg-opacity-20 rounded-full flex items-center justify-center text-primary">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div>
+                    <p class="text-sm mb-1">Task "Contact florist" is due tomorrow</p>
+                    <span class="text-xs text-gray-500">5 hours ago</span>
                 </div>
             </li>
-            <li>
-                <div class="notification-icon"><i class="fas fa-comment"></i></div>
-                <div class="notification-content">
-                    <p>New comment from Sarah on "Tech Conference"</p>
-                    <span class="notification-time">Yesterday</span>
+            <li class="p-4 flex gap-4 hover:bg-gray-200 hover:bg-opacity-30 transition-colors">
+                <div class="w-9 h-9 bg-primary-lightest bg-opacity-20 rounded-full flex items-center justify-center text-primary">
+                    <i class="fas fa-comment"></i>
+                </div>
+                <div>
+                    <p class="text-sm mb-1">New comment from Sarah on "Tech Conference"</p>
+                    <span class="text-xs text-gray-500">Yesterday</span>
                 </div>
             </li>
         </ul>
-        <div class="dropdown-footer">
-            <a href="#">View all notifications</a>
+        <div class="p-3 text-center border-t border-gray-200 border-opacity-30">
+            <a href="#" class="text-sm text-primary">View all notifications</a>
         </div>
     `;
     
     // Add dropdown to the DOM but hide it initially
-    notificationsDropdown.style.display = 'none';
+    notificationBtn.parentNode.classList.add('relative');
     notificationBtn.parentNode.appendChild(notificationsDropdown);
     
     // Toggle dropdown on click
     notificationBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         
-        if (notificationsDropdown.style.display === 'none') {
-            notificationsDropdown.style.display = 'block';
+        if (notificationsDropdown.classList.contains('hidden')) {
+            notificationsDropdown.classList.remove('hidden');
         } else {
-            notificationsDropdown.style.display = 'none';
+            notificationsDropdown.classList.add('hidden');
         }
     });
     
     // Close dropdown when clicking elsewhere
     document.addEventListener('click', function() {
-        notificationsDropdown.style.display = 'none';
+        notificationsDropdown.classList.add('hidden');
     });
     
     // Mark all as read functionality
-    const markAllReadBtn = notificationsDropdown.querySelector('.mark-all-read');
+    const markAllReadBtn = notificationsDropdown.querySelector('button');
     markAllReadBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         
-        const unreadNotifications = notificationsDropdown.querySelectorAll('.unread');
+        const unreadNotifications = notificationsDropdown.querySelectorAll('li.bg-primary-lightest');
         unreadNotifications.forEach(notification => {
-            notification.classList.remove('unread');
+            notification.classList.remove('bg-primary-lightest', 'bg-opacity-30');
         });
         
         // Update notification count
@@ -204,108 +272,82 @@ function showToast(message) {
     
     if (!toastContainer) {
         toastContainer = document.createElement('div');
-        toastContainer.className = 'toast-container';
+        toastContainer.className = 'fixed bottom-5 right-5 z-50';
         document.body.appendChild(toastContainer);
-        
-        // Add style for toast container
-        const style = document.createElement('style');
-        style.textContent = `
-            .toast-container {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                z-index: 1000;
-            }
-            
-            .toast {
-                background-color: var(--primary);
-                color: white;
-                padding: 12px 20px;
-                border-radius: 4px;
-                margin-top: 10px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                display: flex;
-                align-items: center;
-                animation: slideIn 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
-                max-width: 300px;
-            }
-            
-            .toast i {
-                margin-right: 10px;
-            }
-            
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            
-            @keyframes fadeOut {
-                from { opacity: 1; }
-                to { opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
     }
     
     // Create toast element
     const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerHTML = `<i class="fas fa-info-circle"></i> ${message}`;
+    toast.className = 'bg-primary bg-opacity-90 backdrop-blur-md text-white py-3 px-5 rounded-xl shadow-lg flex items-center mb-3 max-w-xs border border-white border-opacity-20 animate-fadeIn';
+    toast.innerHTML = `<i class="fas fa-info-circle mr-3"></i> ${message}`;
     
     // Add toast to container
     toastContainer.appendChild(toast);
     
+    // Add animation classes
+    toast.classList.add('animate-fadeIn');
+    
     // Remove toast after animation completes
     setTimeout(() => {
-        toast.remove();
+        toast.classList.add('animate-fadeOut');
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
     }, 3000);
 }
 
 // Add mobile navigation toggle
 document.addEventListener('DOMContentLoaded', function() {
+    const topNavbar = document.querySelector('header');
+    
+    if (!topNavbar) {
+        console.error('Header element not found');
+        return;
+    }
+    
+    // Create mobile nav toggle button
     const mobileNavToggle = document.createElement('button');
-    mobileNavToggle.className = 'mobile-nav-toggle';
+    mobileNavToggle.className = 'md:hidden text-xl text-gray-700 cursor-pointer';
     mobileNavToggle.innerHTML = '<i class="fas fa-bars"></i>';
     
-    const topNavbar = document.querySelector('.top-navbar');
+    // Add to DOM
     topNavbar.prepend(mobileNavToggle);
     
-    const sidebar = document.querySelector('.sidebar');
+    const sidebar = document.querySelector('aside');
     
-    // Add style for mobile navigation toggle
-    const style = document.createElement('style');
-    style.textContent = `
-        .mobile-nav-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-dark);
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-        
-        @media (max-width: 768px) {
-            .mobile-nav-toggle {
-                display: block;
-            }
-        }
-    `;
-    document.head.appendChild(style);
+    if (!sidebar) {
+        console.error('Sidebar element not found');
+        return;
+    }
     
     // Toggle sidebar on mobile
     mobileNavToggle.addEventListener('click', function() {
-        if (sidebar.classList.contains('active')) {
-            sidebar.classList.remove('active');
-            sidebar.style.transform = 'translateX(-100%)';
+        if (sidebar.classList.contains('translate-x-0')) {
+            sidebar.classList.remove('translate-x-0');
+            sidebar.classList.add('-translate-x-full');
         } else {
-            sidebar.classList.add('active');
-            sidebar.style.transform = 'translateX(0)';
+            sidebar.classList.add('translate-x-0');
+            sidebar.classList.remove('-translate-x-full');
         }
     });
     
-    // Initially hide sidebar on mobile
+    // Add responsive classes to sidebar
     if (window.innerWidth <= 768) {
-        sidebar.style.transform = 'translateX(-100%)';
-        sidebar.style.transition = 'transform 0.3s ease';
+        sidebar.classList.add('w-[70px]', '-translate-x-full', 'transition-transform', 'duration-300');
+        
+        const sidebarTexts = sidebar.querySelectorAll('span');
+        sidebarTexts.forEach(span => {
+            span.classList.add('md:inline', 'hidden');
+        });
+        
+        const sidebarLinks = sidebar.querySelectorAll('a');
+        sidebarLinks.forEach(link => {
+            link.classList.add('justify-center', 'md:justify-start');
+        });
+        
+        const sidebarLogo = sidebar.querySelector('h1');
+        if (sidebarLogo) {
+            sidebarLogo.classList.add('md:block', 'hidden');
+        }
     }
 }); 
