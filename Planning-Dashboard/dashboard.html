@@ -6,7 +6,7 @@
     <title>EventPro - Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script>
+    <script>ggg
         tailwind.config = {
             theme: {
                 extend: {
@@ -21,6 +21,10 @@
                         success: '#10b981',
                         warning: '#f59e0b',
                         danger: '#ef4444',
+                        gray: {
+                            850: '#1f2937',
+                            950: '#0d1117',
+                        }
                     }
                 }
             }
@@ -32,66 +36,60 @@
         });
     </script>
 </head>
-<body class="font-sans bg-gradient-to-br from-indigo-50 to-purple-100 bg-fixed min-h-screen text-gray-800">
+<body class="font-sans bg-gray-950 text-gray-200 min-h-screen">
     <div class="flex w-full min-h-screen relative">
         <!-- Sidebar Navigation -->
-        <aside class="fixed w-64 h-full bg-primary bg-opacity-85 text-white flex flex-col shadow-lg z-50 backdrop-blur">
-            <div class="p-6 border-b border-white border-opacity-10">
+        <aside class="fixed w-64 h-full bg-gray-850 text-white flex flex-col shadow-lg z-50 border-r border-gray-800">
+            <div class="p-6 border-b border-gray-800">
                 <h1 class="text-xl font-bold">EventPro</h1>
             </div>
             <nav class="flex-1 py-4 overflow-y-auto">
                 <ul>
                     <li class="mb-2">
-                        <a href="#dashboard" class="flex items-center px-6 py-3 opacity-70 hover:opacity-100 hover:bg-white hover:bg-opacity-10 transition-all border-l-4 border-primary-light bg-white bg-opacity-15">
+                        <a href="#dashboard" class="flex items-center px-6 py-3 opacity-80 hover:opacity-100 hover:bg-gray-800 transition-all border-l-2 border-primary-light bg-primary-light bg-opacity-10">
                             <i class="fas fa-tachometer-alt mr-4 w-5 text-center"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="#events" class="flex items-center px-6 py-3 opacity-70 hover:opacity-100 hover:bg-white hover:bg-opacity-10 transition-all">
-                            <i class="fas fa-calendar-alt mr-4 w-5 text-center"></i>
-                            <span>Events</span>
+                        <a href="task_and_event.html" class="flex items-center px-6 py-3 opacity-70 hover:opacity-100 hover:bg-gray-800 transition-all">
+                            <i class="fas fa-calendar-check mr-4 w-5 text-center"></i>
+                            <span>Events & Tasks</span>
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="#tasks" class="flex items-center px-6 py-3 opacity-70 hover:opacity-100 hover:bg-white hover:bg-opacity-10 transition-all">
-                            <i class="fas fa-tasks mr-4 w-5 text-center"></i>
-                            <span>Tasks</span>
-                        </a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="#clients" class="flex items-center px-6 py-3 opacity-70 hover:opacity-100 hover:bg-white hover:bg-opacity-10 transition-all">
+                        <a href="client.html" class="flex items-center px-6 py-3 opacity-70 hover:opacity-100 hover:bg-gray-800 transition-all">
                             <i class="fas fa-users mr-4 w-5 text-center"></i>
                             <span>Clients</span>
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="#vendors" class="flex items-center px-6 py-3 opacity-70 hover:opacity-100 hover:bg-white hover:bg-opacity-10 transition-all">
+                        <a href="#vendors" class="flex items-center px-6 py-3 opacity-70 hover:opacity-100 hover:bg-gray-800 transition-all">
                             <i class="fas fa-store mr-4 w-5 text-center"></i>
                             <span>Vendors</span>
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="#budget" class="flex items-center px-6 py-3 opacity-70 hover:opacity-100 hover:bg-white hover:bg-opacity-10 transition-all">
+                        <a href="#budget" class="flex items-center px-6 py-3 opacity-70 hover:opacity-100 hover:bg-gray-800 transition-all">
                             <i class="fas fa-dollar-sign mr-4 w-5 text-center"></i>
                             <span>Budget</span>
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="#reports" class="flex items-center px-6 py-3 opacity-70 hover:opacity-100 hover:bg-white hover:bg-opacity-10 transition-all">
+                        <a href="#reports" class="flex items-center px-6 py-3 opacity-70 hover:opacity-100 hover:bg-gray-800 transition-all">
                             <i class="fas fa-chart-pie mr-4 w-5 text-center"></i>
                             <span>Reports</span>
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="#settings" class="flex items-center px-6 py-3 opacity-70 hover:opacity-100 hover:bg-white hover:bg-opacity-10 transition-all">
+                        <a href="settings.html" class="flex items-center px-6 py-3 opacity-70 hover:opacity-100 hover:bg-gray-800 transition-all">
                             <i class="fas fa-cog mr-4 w-5 text-center"></i>
                             <span>Settings</span>
                         </a>
                     </li>
                 </ul>
             </nav>
-            <div class="p-6 border-t border-white border-opacity-10">
+            <div class="p-6 border-t border-gray-800">
                 <a href="login-dashboard.html" class="login flex items-center opacity-70 hover:opacity-100 transition-all">
                     <i class="fas fa-sign-in-alt mr-3"></i>
                     <span>Login</span>
@@ -100,20 +98,20 @@
         </aside>
 
         <!-- Main Content Area -->
-        <main class="ml-64 w-[calc(100%-16rem)] min-h-screen pb-8 backdrop-blur-sm">
+        <main class="ml-64 w-[calc(100%-16rem)] min-h-screen pb-8">
             <!-- Top Navigation Bar -->
-            <header class="h-[70px] bg-white bg-opacity-70 backdrop-blur-md shadow-lg flex justify-between items-center px-8 sticky top-0 z-40 border-b border-white border-opacity-30">
+            <header class="h-[70px] bg-gray-900 shadow-lg flex justify-between items-center px-8 sticky top-0 z-40 border-b border-gray-800">
                 <div class="relative w-[300px]">
                     <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
-                    <input type="text" placeholder="Search..." class="w-full py-3 pl-10 pr-3 rounded-full text-sm bg-white bg-opacity-50 backdrop-blur-sm border border-white border-opacity-30 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-10">
+                    <input type="text" placeholder="Search..." class="w-full py-3 pl-10 pr-3 rounded-full text-sm bg-gray-850 border border-gray-700 focus:outline-none focus:border-primary-light focus:ring-2 focus:ring-primary-light">
                 </div>
                 <div class="user-actions flex items-center gap-6" id="userActions">
-                    <button class="notification-btn relative text-xl text-gray-700">
+                    <button class="notification-btn relative text-xl text-gray-400 hover:text-white transition-colors">
                         <i class="fas fa-bell"></i>
-                        <span class="notification-count absolute -top-1 -right-1 bg-primary text-white text-xs w-[18px] h-[18px] rounded-full flex items-center justify-center">3</span>
+                        <span class="notification-count absolute -top-1 -right-1 bg-primary-light text-white text-xs w-[18px] h-[18px] rounded-full flex items-center justify-center">3</span>
                     </button>
                     <div class="user-profile flex items-center gap-3 cursor-pointer">
-                        <img src="https://source.unsplash.com/random/100x100/?portrait" alt="User Profile" class="w-10 h-10 rounded-full object-cover border-2 border-white border-opacity-50">
+                        <img src="https://source.unsplash.com/random/100x100/?portrait" alt="User Profile" class="w-10 h-10 rounded-full object-cover border-2 border-gray-700">
                         <span>Gourav Dash</span>
                     </div>
                 </div>
@@ -121,47 +119,47 @@
 
             <!-- Dashboard Overview -->
             <section class="p-8">
-                <h2 class="text-2xl mb-6">Dashboard Overview</h2>
+                <h2 class="text-2xl mb-6 text-white">Dashboard Overview</h2>
                 
                 <!-- Stats Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="bg-white bg-opacity-70 backdrop-blur-md rounded-xl shadow-lg p-6 flex items-center hover:transform hover:-translate-y-1 transition-all duration-300 border border-white border-opacity-30">
-                        <div class="bg-primary-lightest bg-opacity-20 text-primary w-[50px] h-[50px] rounded-xl flex items-center justify-center text-2xl mr-4 backdrop-blur-sm border border-white border-opacity-20">
+                    <div class="bg-gray-850 rounded-xl shadow-lg p-6 flex items-center hover:transform hover:-translate-y-1 transition-all duration-300 border border-gray-800">
+                        <div class="bg-primary-lightest bg-opacity-10 text-primary-light w-[50px] h-[50px] rounded-xl flex items-center justify-center text-2xl mr-4 border border-gray-700">
                             <i class="fas fa-calendar-alt"></i>
                         </div>
                         <div>
-                            <h3 class="text-sm text-gray-500 mb-2">Active Events</h3>
-                            <p class="text-2xl font-bold mb-1">8</p>
+                            <h3 class="text-sm text-gray-400 mb-2">Active Events</h3>
+                            <p class="text-2xl font-bold mb-1 text-white">8</p>
                             <p class="text-xs text-gray-500">3 upcoming this week</p>
                         </div>
                     </div>
-                    <div class="bg-white bg-opacity-70 backdrop-blur-md rounded-xl shadow-lg p-6 flex items-center hover:transform hover:-translate-y-1 transition-all duration-300 border border-white border-opacity-30">
-                        <div class="bg-primary-lightest bg-opacity-20 text-primary w-[50px] h-[50px] rounded-xl flex items-center justify-center text-2xl mr-4 backdrop-blur-sm border border-white border-opacity-20">
+                    <div class="bg-gray-850 rounded-xl shadow-lg p-6 flex items-center hover:transform hover:-translate-y-1 transition-all duration-300 border border-gray-800">
+                        <div class="bg-primary-lightest bg-opacity-10 text-primary-light w-[50px] h-[50px] rounded-xl flex items-center justify-center text-2xl mr-4 border border-gray-700">
                             <i class="fas fa-tasks"></i>
                         </div>
                         <div>
-                            <h3 class="text-sm text-gray-500 mb-2">Pending Tasks</h3>
-                            <p class="text-2xl font-bold mb-1">24</p>
+                            <h3 class="text-sm text-gray-400 mb-2">Pending Tasks</h3>
+                            <p class="text-2xl font-bold mb-1 text-white">24</p>
                             <p class="text-xs text-gray-500">7 due today</p>
                         </div>
                     </div>
-                    <div class="bg-white bg-opacity-70 backdrop-blur-md rounded-xl shadow-lg p-6 flex items-center hover:transform hover:-translate-y-1 transition-all duration-300 border border-white border-opacity-30">
-                        <div class="bg-primary-lightest bg-opacity-20 text-primary w-[50px] h-[50px] rounded-xl flex items-center justify-center text-2xl mr-4 backdrop-blur-sm border border-white border-opacity-20">
+                    <div class="bg-gray-850 rounded-xl shadow-lg p-6 flex items-center hover:transform hover:-translate-y-1 transition-all duration-300 border border-gray-800">
+                        <div class="bg-primary-lightest bg-opacity-10 text-primary-light w-[50px] h-[50px] rounded-xl flex items-center justify-center text-2xl mr-4 border border-gray-700">
                             <i class="fas fa-dollar-sign"></i>
                         </div>
                         <div>
-                            <h3 class="text-sm text-gray-500 mb-2">Total Budget</h3>
-                            <p class="text-2xl font-bold mb-1">$45,850</p>
+                            <h3 class="text-sm text-gray-400 mb-2">Total Budget</h3>
+                            <p class="text-2xl font-bold mb-1 text-white">$45,850</p>
                             <p class="text-xs text-gray-500">$12,500 spent</p>
                         </div>
                     </div>
-                    <div class="bg-white bg-opacity-70 backdrop-blur-md rounded-xl shadow-lg p-6 flex items-center hover:transform hover:-translate-y-1 transition-all duration-300 border border-white border-opacity-30">
-                        <div class="bg-primary-lightest bg-opacity-20 text-primary w-[50px] h-[50px] rounded-xl flex items-center justify-center text-2xl mr-4 backdrop-blur-sm border border-white border-opacity-20">
+                    <div class="bg-gray-850 rounded-xl shadow-lg p-6 flex items-center hover:transform hover:-translate-y-1 transition-all duration-300 border border-gray-800">
+                        <div class="bg-primary-lightest bg-opacity-10 text-primary-light w-[50px] h-[50px] rounded-xl flex items-center justify-center text-2xl mr-4 border border-gray-700">
                             <i class="fas fa-users"></i>
                         </div>
                         <div>
-                            <h3 class="text-sm text-gray-500 mb-2">Total Clients</h3>
-                            <p class="text-2xl font-bold mb-1">12</p>
+                            <h3 class="text-sm text-gray-400 mb-2">Total Clients</h3>
+                            <p class="text-2xl font-bold mb-1 text-white">12</p>
                             <p class="text-xs text-gray-500">3 new this month</p>
                         </div>
                     </div>
@@ -169,14 +167,14 @@
 
                 <!-- Charts Section -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    <div class="bg-white bg-opacity-70 backdrop-blur-md rounded-xl shadow-lg p-6 border border-white border-opacity-30">
+                    <div class="bg-gray-850 rounded-xl shadow-lg p-6 border border-gray-800">
                         <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-base font-medium">Events by Category</h3>
+                            <h3 class="text-base font-medium text-white">Events by Category</h3>
                             <div class="flex gap-2">
-                                <button class="bg-white bg-opacity-30 backdrop-blur-sm rounded-full w-[30px] h-[30px] flex items-center justify-center text-gray-500 hover:bg-opacity-50 hover:text-primary transition-all">
+                                <button class="bg-gray-800 rounded-full w-[30px] h-[30px] flex items-center justify-center text-gray-400 hover:text-white transition-all">
                                     <i class="fas fa-download"></i>
                                 </button>
-                                <button class="bg-white bg-opacity-30 backdrop-blur-sm rounded-full w-[30px] h-[30px] flex items-center justify-center text-gray-500 hover:bg-opacity-50 hover:text-primary transition-all">
+                                <button class="bg-gray-800 rounded-full w-[30px] h-[30px] flex items-center justify-center text-gray-400 hover:text-white transition-all">
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
                             </div>
@@ -204,14 +202,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="bg-white bg-opacity-70 backdrop-blur-md rounded-xl shadow-lg p-6 border border-white border-opacity-30">
+                    <div class="bg-gray-850 rounded-xl shadow-lg p-6 border border-gray-800">
                         <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-base font-medium">Monthly Revenue</h3>
+                            <h3 class="text-base font-medium text-white">Monthly Revenue</h3>
                             <div class="flex gap-2">
-                                <button class="bg-white bg-opacity-30 backdrop-blur-sm rounded-full w-[30px] h-[30px] flex items-center justify-center text-gray-500 hover:bg-opacity-50 hover:text-primary transition-all">
+                                <button class="bg-gray-800 rounded-full w-[30px] h-[30px] flex items-center justify-center text-gray-400 hover:text-white transition-all">
                                     <i class="fas fa-download"></i>
                                 </button>
-                                <button class="bg-white bg-opacity-30 backdrop-blur-sm rounded-full w-[30px] h-[30px] flex items-center justify-center text-gray-500 hover:bg-opacity-50 hover:text-primary transition-all">
+                                <button class="bg-gray-800 rounded-full w-[30px] h-[30px] flex items-center justify-center text-gray-400 hover:text-white transition-all">
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
                             </div>
@@ -247,74 +245,74 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <!-- Upcoming Events & Tasks -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div class="bg-white bg-opacity-70 backdrop-blur-md rounded-xl shadow-lg p-6 border border-white border-opacity-30">
+                    <div class="bg-gray-850 rounded-xl shadow-lg p-6 border border-gray-800">
                         <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-base font-medium">Upcoming Events</h3>
-                            <a href="#" class="text-primary text-sm hover:text-primary-dark transition-colors">View All</a>
+                            <h3 class="text-base font-medium text-white">Upcoming Events</h3>
+                            <a href="task_and_event.html" class="text-primary-light text-sm hover:text-white transition-colors">View All</a>
                         </div>
                         <div>
-                            <div class="flex items-center py-4 border-b border-gray-200 border-opacity-30">
-                                <div class="flex flex-col items-center justify-center bg-primary-lightest bg-opacity-50 backdrop-blur-sm text-primary w-[60px] h-[60px] rounded-lg mr-4 border border-white border-opacity-20">
+                            <div class="flex items-center py-4 border-b border-gray-800">
+                                <div class="flex flex-col items-center justify-center bg-primary-lightest bg-opacity-10 text-primary-light w-[60px] h-[60px] rounded-lg mr-4 border border-gray-700">
                                     <span class="text-xl font-bold leading-none">15</span>
                                     <span class="text-xs font-bold">JUN</span>
                                 </div>
                                 <div class="flex-1">
-                                    <h4 class="text-sm font-medium mb-1">Johnson Wedding</h4>
+                                    <h4 class="text-sm font-medium mb-1 text-white">Johnson Wedding</h4>
                                     <p class="text-xs text-gray-500 mb-2">Golden Palace Hall</p>
                                     <div class="flex items-center gap-3">
-                                        <div class="flex-1 h-1.5 bg-gray-200 bg-opacity-30 rounded overflow-hidden">
+                                        <div class="flex-1 h-1.5 bg-gray-800 rounded overflow-hidden">
                                             <div class="h-full bg-primary rounded" style="width: 85%"></div>
                                         </div>
                                         <span class="text-xs text-gray-500">85% Complete</span>
                                     </div>
                                 </div>
                                 <div>
-                                    <button class="bg-white bg-opacity-30 backdrop-blur-sm rounded-full w-[30px] h-[30px] flex items-center justify-center text-gray-500 hover:bg-opacity-50 hover:text-primary transition-all">
+                                    <button class="bg-gray-800 rounded-full w-[30px] h-[30px] flex items-center justify-center text-gray-400 hover:text-white transition-all">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </div>
                             </div>
-                            <div class="flex items-center py-4 border-b border-gray-200 border-opacity-30">
-                                <div class="flex flex-col items-center justify-center bg-primary-lightest bg-opacity-50 backdrop-blur-sm text-primary w-[60px] h-[60px] rounded-lg mr-4 border border-white border-opacity-20">
+                            <div class="flex items-center py-4 border-b border-gray-800">
+                                <div class="flex flex-col items-center justify-center bg-primary-lightest bg-opacity-10 text-primary-light w-[60px] h-[60px] rounded-lg mr-4 border border-gray-700">
                                     <span class="text-xl font-bold leading-none">22</span>
                                     <span class="text-xs font-bold">JUN</span>
                                 </div>
                                 <div class="flex-1">
-                                    <h4 class="text-sm font-medium mb-1">Tech Conference 2024</h4>
+                                    <h4 class="text-sm font-medium mb-1 text-white">Tech Conference 2024</h4>
                                     <p class="text-xs text-gray-500 mb-2">Convention Center</p>
                                     <div class="flex items-center gap-3">
-                                        <div class="flex-1 h-1.5 bg-gray-200 bg-opacity-30 rounded overflow-hidden">
+                                        <div class="flex-1 h-1.5 bg-gray-800 rounded overflow-hidden">
                                             <div class="h-full bg-primary rounded" style="width: 60%"></div>
                                         </div>
                                         <span class="text-xs text-gray-500">60% Complete</span>
                                     </div>
                                 </div>
                                 <div>
-                                    <button class="bg-white bg-opacity-30 backdrop-blur-sm rounded-full w-[30px] h-[30px] flex items-center justify-center text-gray-500 hover:bg-opacity-50 hover:text-primary transition-all">
+                                    <button class="bg-gray-800 rounded-full w-[30px] h-[30px] flex items-center justify-center text-gray-400 hover:text-white transition-all">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </div>
                             </div>
                             <div class="flex items-center py-4">
-                                <div class="flex flex-col items-center justify-center bg-primary-lightest bg-opacity-50 backdrop-blur-sm text-primary w-[60px] h-[60px] rounded-lg mr-4 border border-white border-opacity-20">
+                                <div class="flex flex-col items-center justify-center bg-primary-lightest bg-opacity-10 text-primary-light w-[60px] h-[60px] rounded-lg mr-4 border border-gray-700">
                                     <span class="text-xl font-bold leading-none">30</span>
                                     <span class="text-xs font-bold">JUN</span>
                                 </div>
                                 <div class="flex-1">
-                                    <h4 class="text-sm font-medium mb-1">Charity Gala Dinner</h4>
+                                    <h4 class="text-sm font-medium mb-1 text-white">Charity Gala Dinner</h4>
                                     <p class="text-xs text-gray-500 mb-2">Sunset Hotel</p>
                                     <div class="flex items-center gap-3">
-                                        <div class="flex-1 h-1.5 bg-gray-200 bg-opacity-30 rounded overflow-hidden">
+                                        <div class="flex-1 h-1.5 bg-gray-800 rounded overflow-hidden">
                                             <div class="h-full bg-primary rounded" style="width: 40%"></div>
                                         </div>
                                         <span class="text-xs text-gray-500">40% Complete</span>
                                     </div>
                                 </div>
                                 <div>
-                                    <button class="bg-white bg-opacity-30 backdrop-blur-sm rounded-full w-[30px] h-[30px] flex items-center justify-center text-gray-500 hover:bg-opacity-50 hover:text-primary transition-all">
+                                    <button class="bg-gray-800 rounded-full w-[30px] h-[30px] flex items-center justify-center text-gray-400 hover:text-white transition-all">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </div>
@@ -322,61 +320,61 @@
                         </div>
                     </div>
                     
-                    <div class="bg-white bg-opacity-70 backdrop-blur-md rounded-xl shadow-lg p-6 border border-white border-opacity-30">
+                    <div class="bg-gray-850 rounded-xl shadow-lg p-6 border border-gray-800">
                         <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-base font-medium">Recent Tasks</h3>
-                            <a href="#" class="text-primary text-sm hover:text-primary-dark transition-colors">View All</a>
+                            <h3 class="text-base font-medium text-white">Recent Tasks</h3>
+                            <a href="task_and_event.html" class="text-primary-light text-sm hover:text-white transition-colors">View All</a>
                         </div>
                         <div>
-                            <div class="flex items-center py-4 border-b border-gray-200 border-opacity-30">
+                            <div class="flex items-center py-4 border-b border-gray-800">
                                 <div class="mr-4">
                                     <input type="checkbox" id="task1" class="hidden">
-                                    <label for="task1" class="inline-block w-5 h-5 border-2 border-primary rounded-md cursor-pointer relative bg-white bg-opacity-30 backdrop-blur-sm"></label>
+                                    <label for="task1" class="inline-block w-5 h-5 border-2 border-primary-light rounded-md cursor-pointer relative bg-gray-900"></label>
                                 </div>
                                 <div class="flex-1">
-                                    <h4 class="text-sm font-medium mb-1">Contact florist for Johnson Wedding</h4>
+                                    <h4 class="text-sm font-medium mb-1 text-white">Contact florist for Johnson Wedding</h4>
                                     <p class="text-xs text-gray-500">Due: June 10, 2024</p>
                                 </div>
-                                <div class="bg-red-100 text-red-500 px-2 py-1 rounded text-xs font-medium">
+                                <div class="bg-red-900 bg-opacity-30 text-red-400 px-2 py-1 rounded text-xs font-medium">
                                     High
                                 </div>
                             </div>
-                            <div class="flex items-center py-4 border-b border-gray-200 border-opacity-30">
+                            <div class="flex items-center py-4 border-b border-gray-800">
                                 <div class="mr-4">
                                     <input type="checkbox" id="task2" class="hidden">
-                                    <label for="task2" class="inline-block w-5 h-5 border-2 border-primary rounded-md cursor-pointer relative bg-white bg-opacity-30 backdrop-blur-sm"></label>
+                                    <label for="task2" class="inline-block w-5 h-5 border-2 border-primary-light rounded-md cursor-pointer relative bg-gray-900"></label>
                                 </div>
                                 <div class="flex-1">
-                                    <h4 class="text-sm font-medium mb-1">Finalize Tech Conference speakers</h4>
+                                    <h4 class="text-sm font-medium mb-1 text-white">Finalize Tech Conference speakers</h4>
                                     <p class="text-xs text-gray-500">Due: June 12, 2024</p>
                                 </div>
-                                <div class="bg-yellow-100 text-yellow-500 px-2 py-1 rounded text-xs font-medium">
+                                <div class="bg-yellow-900 bg-opacity-30 text-yellow-400 px-2 py-1 rounded text-xs font-medium">
                                     Medium
                                 </div>
                             </div>
-                            <div class="flex items-center py-4 border-b border-gray-200 border-opacity-30">
+                            <div class="flex items-center py-4 border-b border-gray-800">
                                 <div class="mr-4">
                                     <input type="checkbox" id="task3" class="hidden">
-                                    <label for="task3" class="inline-block w-5 h-5 border-2 border-primary rounded-md cursor-pointer relative bg-white bg-opacity-30 backdrop-blur-sm"></label>
+                                    <label for="task3" class="inline-block w-5 h-5 border-2 border-primary-light rounded-md cursor-pointer relative bg-gray-900"></label>
                                 </div>
                                 <div class="flex-1">
-                                    <h4 class="text-sm font-medium mb-1">Send invitations for Charity Gala</h4>
+                                    <h4 class="text-sm font-medium mb-1 text-white">Send invitations for Charity Gala</h4>
                                     <p class="text-xs text-gray-500">Due: June 15, 2024</p>
                                 </div>
-                                <div class="bg-red-100 text-red-500 px-2 py-1 rounded text-xs font-medium">
+                                <div class="bg-red-900 bg-opacity-30 text-red-400 px-2 py-1 rounded text-xs font-medium">
                                     High
                                 </div>
                             </div>
                             <div class="flex items-center py-4">
                                 <div class="mr-4">
                                     <input type="checkbox" id="task4" class="hidden">
-                                    <label for="task4" class="inline-block w-5 h-5 border-2 border-primary rounded-md cursor-pointer relative bg-white bg-opacity-30 backdrop-blur-sm"></label>
+                                    <label for="task4" class="inline-block w-5 h-5 border-2 border-primary-light rounded-md cursor-pointer relative bg-gray-900"></label>
                                 </div>
                                 <div class="flex-1">
-                                    <h4 class="text-sm font-medium mb-1">Book catering for Smith Anniversary</h4>
+                                    <h4 class="text-sm font-medium mb-1 text-white">Book catering for Smith Anniversary</h4>
                                     <p class="text-xs text-gray-500">Due: June 18, 2024</p>
                                 </div>
-                                <div class="bg-green-100 text-green-500 px-2 py-1 rounded text-xs font-medium">
+                                <div class="bg-green-900 bg-opacity-30 text-green-400 px-2 py-1 rounded text-xs font-medium">
                                     Low
                                 </div>
                             </div>

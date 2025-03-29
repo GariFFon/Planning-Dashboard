@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventPro - Settings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#6a3093',
+                            dark: '#502875',
+                            light: '#a855f7',
+                            lightest: '#f3e8ff',
+                        },
+                        accent: '#8e44ad',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                        gray: {
+                            850: '#1f2937',
+                            950: '#0d1117',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-950 text-gray-200 min-h-screen flex">
+    <!-- Left Sidebar -->
+    <aside class="w-64 border-r border-gray-800 h-screen fixed left-0 top-0 overflow-y-auto">
+        <div class="p-6">
+            <a href="dashboard.html" class="text-white text-xl font-bold flex items-center">
+                <i class="fas fa-calendar-check mr-3 text-primary-light"></i>
+                EventPro
+            </a>
+        </div>
+        
+        <div class="mt-3">
+            <h3 class="text-xs text-gray-400 uppercase px-6 py-2">Account Settings</h3>
+            <ul>
+                <li class="mb-1">
+                    <a href="#" class="flex items-center px-6 py-3 bg-primary-light bg-opacity-20 text-white border-l-2 border-primary-light">
+                        <i class="fas fa-user mr-3"></i>
+                        <span>Public profile</span>
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <i class="fas fa-cog mr-3"></i>
+                        <span>Account</span>
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <i class="fas fa-palette mr-3"></i>
+                        <span>Appearance</span>
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <i class="fas fa-universal-access mr-3"></i>
+                        <span>Accessibility</span>
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <i class="fas fa-bell mr-3"></i>
+                        <span>Notifications</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <h3 class="text-xs text-gray-400 uppercase px-6 py-2 mt-6">Access</h3>
+            <ul>
+                <li class="mb-1">
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <i class="fas fa-credit-card mr-3"></i>
+                        <span>Billing and plans</span>
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <i class="fas fa-envelope mr-3"></i>
+                        <span>Emails</span>
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <i class="fas fa-lock mr-3"></i>
+                        <span>Password and authentication</span>
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <i class="fas fa-desktop mr-3"></i>
+                        <span>Sessions</span>
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <i class="fas fa-key mr-3"></i>
+                        <span>SSH and API keys</span>
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <i class="fas fa-building mr-3"></i>
+                        <span>Organizations</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <h3 class="text-xs text-gray-400 uppercase px-6 py-2 mt-6">Planning</h3>
+            <ul>
+                <li class="mb-1">
+                    <a href="dashboard.html" class="flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <i class="fas fa-tachometer-alt mr-3"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <i class="fas fa-calendar-alt mr-3"></i>
+                        <span>Events</span>
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <i class="fas fa-tasks mr-3"></i>
+                        <span>Tasks</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="p-6 border-t border-gray-800 mt-auto">
+            <a href="login-dashboard.html" class="login flex items-center text-gray-400 hover:text-white transition-all">
+                <i class="fas fa-sign-in-alt mr-3"></i>
+                <span>Login</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="ml-64 flex-1">
+        <!-- Top Navigation Bar -->
+        <header class="h-[70px] bg-gray-900 border-b border-gray-800 flex justify-between items-center px-8 sticky top-0 z-40">
+            <div class="relative w-[300px]">
+                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                <input type="text" placeholder="Search..." class="w-full py-3 pl-10 pr-3 rounded-full text-sm bg-gray-850 border border-gray-700 focus:outline-none focus:border-primary-light focus:ring-1 focus:ring-primary-light">
+            </div>
+            <div class="user-actions flex items-center gap-6" id="userActions">
+                <button class="notification-btn relative text-xl text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-count absolute -top-1 -right-1 bg-primary-light text-white text-xs w-[18px] h-[18px] rounded-full flex items-center justify-center">3</span>
+                </button>
+                <div class="user-profile flex items-center gap-3 cursor-pointer">
+                    <img src="https://source.unsplash.com/random/100x100/?portrait" alt="User Profile" class="w-10 h-10 rounded-full object-cover border-2 border-gray-700">
+                    <span>Gourav Dash</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="max-w-4xl mx-auto py-8 px-6">
+            <h1 class="text-2xl font-bold mb-8 text-white">Public profile</h1>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Left column (form) -->
+                <div class="md:col-span-2">
+                    <form>
+                        <!-- Name field -->
+                        <div class="mb-6">
+                            <label for="name" class="block mb-2 font-medium">Name</label>
+                            <input 
+                                type="text" 
+                                id="name" 
+                                class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light" 
+                                placeholder="Your name"
+                            >
+                            <p class="mt-2 text-sm text-gray-400">
+                                Your name may appear around EventPro where you contribute or are mentioned. You can remove it at any time.
+                            </p>
+                        </div>
+                        
+                        <!-- Email field -->
+                        <div class="mb-6">
+                            <label class="block mb-2 font-medium">Public email</label>
+                            <select class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light">
+                                <option>Select a verified email</option>
+                                <option>user@example.com</option>
+                            </select>
+                            <p class="mt-2 text-sm text-gray-400">
+                                You can manage verified emails in your <a href="#" class="text-primary-light">email settings</a>
+                            </p>
+                        </div>
+                        
+                        <!-- Bio field -->
+                        <div class="mb-6">
+                            <label for="bio" class="block mb-2 font-medium">Bio</label>
+                            <textarea 
+                                id="bio" 
+                                rows="4" 
+                                class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light" 
+                                placeholder="Tell us a little bit about yourself"
+                            ></textarea>
+                            <p class="mt-2 text-sm text-gray-400">
+                                You can @mention other users and organizations to link to them.
+                            </p>
+                        </div>
+                        
+                        <!-- Pronouns field -->
+                        <div class="mb-6">
+                            <label class="block mb-2 font-medium">Pronouns</label>
+                            <select class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light">
+                                <option>Don't specify</option>
+                                <option>They/them</option>
+                                <option>She/her</option>
+                                <option>He/him</option>
+                            </select>
+                        </div>
+                        
+                        <!-- URL field -->
+                        <div class="mb-6">
+                            <label for="url" class="block mb-2 font-medium">URL</label>
+                            <input 
+                                type="url" 
+                                id="url" 
+                                class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light" 
+                                placeholder="https://your-website.com"
+                            >
+                        </div>
+
+                        <!-- ORCID field -->
+                        <div class="mb-8">
+                            <h3 class="font-medium mb-2">ORCID ID</h3>
+                            <p class="text-sm text-gray-400 mb-3">
+                                ORCID provides a persistent identifier - an ORCID ID - that distinguishes you from other researchers.
+                                Learn more at <a href="#" class="text-primary-light">ORCID.org</a>.
+                            </p>
+                            <button class="px-4 py-2 bg-gray-800 border border-gray-600 rounded-md flex items-center text-sm">
+                                <i class="fas fa-id-card mr-2 text-primary-light"></i>
+                                Connect your ORCID ID
+                            </button>
+                        </div>
+                        
+                        <!-- Social accounts -->
+                        <div class="mb-8">
+                            <h3 class="font-medium mb-4">Social accounts</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <div class="flex items-center mb-2">
+                                        <i class="fab fa-twitter text-gray-400 mr-2"></i>
+                                        <label for="twitter" class="text-sm">Twitter username</label>
+                                    </div>
+                                    <input 
+                                        type="text" 
+                                        id="twitter" 
+                                        class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light" 
+                                        placeholder="@username"
+                                    >
+                                </div>
+                                <div>
+                                    <div class="flex items-center mb-2">
+                                        <i class="fab fa-linkedin text-gray-400 mr-2"></i>
+                                        <label for="linkedin" class="text-sm">LinkedIn username</label>
+                                    </div>
+                                    <input 
+                                        type="text" 
+                                        id="linkedin" 
+                                        class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light" 
+                                        placeholder="username"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Submit button -->
+                        <div>
+                            <button type="submit" class="px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-md">
+                                Update profile
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Right column (profile picture) -->
+                <div>
+                    <div class="bg-gray-850 border border-gray-700 rounded-lg p-5">
+                        <h3 class="font-medium mb-4">Profile picture</h3>
+                        <div class="flex flex-col items-center">
+                            <div class="w-40 h-40 rounded-full bg-gray-800 border border-dashed border-gray-600 mb-4 overflow-hidden flex items-center justify-center">
+                                <img id="profile-preview" src="https://source.unsplash.com/random/200x200/?portrait" alt="Profile" class="w-full h-full object-cover">
+                            </div>
+                            <input type="file" id="profile-upload" class="hidden" accept="image/*">
+                            <button 
+                                onclick="document.getElementById('profile-upload').click()" 
+                                class="px-4 py-2 mb-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-md text-sm w-full"
+                            >
+                                Upload new picture
+                            </button>
+                            <button class="px-4 py-2 text-gray-400 hover:text-white text-sm">
+                                Remove picture
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="dashboard.js"></script>
+    <script>
+        // Preview uploaded image
+        document.getElementById('profile-upload')?.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('profile-preview').src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html> 
