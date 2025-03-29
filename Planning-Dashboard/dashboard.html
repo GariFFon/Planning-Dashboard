@@ -6,7 +6,7 @@
     <title>EventPro - Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script>ggg
+    <script>
         tailwind.config = {
             theme: {
                 extend: {
@@ -386,5 +386,35 @@
     </div>
 
     <script src="dashboard.js"></script>
+    <script>
+        // Initialize charts on document load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply hover effects to chart bars
+            const revenueChartBars = document.querySelectorAll('#revenueChart .bar-value');
+            revenueChartBars.forEach(bar => {
+                bar.addEventListener('mouseenter', function() {
+                    this.classList.add('bg-primary');
+                    this.classList.remove('bg-opacity-70');
+                });
+                
+                bar.addEventListener('mouseleave', function() {
+                    this.classList.remove('bg-primary');
+                    this.classList.add('bg-opacity-70');
+                });
+            });
+
+            // Apply hover effects to event type chart
+            const eventTypeBars = document.querySelectorAll('#eventTypesChart .h-\\[60\\%\\], #eventTypesChart .h-\\[25\\%\\], #eventTypesChart .h-\\[15\\%\\]');
+            eventTypeBars.forEach(bar => {
+                bar.addEventListener('mouseenter', function() {
+                    this.classList.add('transform', 'scale-105', 'transition-transform');
+                });
+                
+                bar.addEventListener('mouseleave', function() {
+                    this.classList.remove('transform', 'scale-105', 'transition-transform');
+                });
+            });
+        });
+    </script>
 </body>
 </html> 
