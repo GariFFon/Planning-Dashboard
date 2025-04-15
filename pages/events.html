@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventPro - Events</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-black to-gray-800 min-h-screen text-white">
+    <!-- Notification Area -->
+    <div id="notification-area" class="fixed top-5 right-5 z-50 space-y-3"></div>
+    
+    <!-- Navbar -->
+    <nav class="navbar fixed w-full bg-gray-900/70 backdrop-blur-md z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-violet-500 to-cyan-500">EventPro</h1>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-8">
+                        <a href="index.html" class="navbar-link text-gray-300 hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Dashboard</a>
+                        <a href="add-event.html" class="navbar-link text-gray-300 hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Add Event</a>
+                        <a href="events.html" class="navbar-link text-white hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Events</a>
+                        <a href="calendar.html" class="navbar-link text-gray-300 hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Calendar</a>
+                        <a href="profile.html" class="navbar-link text-gray-300 hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Profile</a>
+                        <a href="settings.html" class="navbar-link text-gray-300 hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Settings</a>
+                        <a href="login.html" class="navbar-link text-gray-300 hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Logout</a>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="menu-toggle" type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-900/90 backdrop-blur-md">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-gray-300 font-medium hover:bg-gray-700 hover:text-white">Dashboard</a>
+                <a href="add-event.html" class="block px-3 py-2 rounded-md text-gray-300 font-medium hover:bg-gray-700 hover:text-white">Add Event</a>
+                <a href="events.html" class="block px-3 py-2 rounded-md text-white font-medium hover:bg-gray-700">Events</a>
+                <a href="calendar.html" class="block px-3 py-2 rounded-md text-gray-300 font-medium hover:bg-gray-700 hover:text-white">Calendar</a>
+                <a href="profile.html" class="block px-3 py-2 rounded-md text-gray-300 font-medium hover:bg-gray-700 hover:text-white">Profile</a>
+                <a href="settings.html" class="block px-3 py-2 rounded-md text-gray-300 font-medium hover:bg-gray-700 hover:text-white">Settings</a>
+                <a href="login.html" class="block px-3 py-2 rounded-md text-gray-300 font-medium hover:bg-gray-700 hover:text-white">Logout</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="pt-20 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Header -->
+            <div class="animate-on-scroll mb-8">
+                <h2 class="text-3xl font-bold text-white mb-2">Events</h2>
+                <p class="text-gray-400">Manage all your upcoming and past events</p>
+            </div>
+            
+            <!-- Search & Filter Bar -->
+            <div class="mb-8 bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 animate-on-scroll">
+                <div class="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4">
+                    <!-- Search -->
+                    <div class="relative flex-grow">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-search text-gray-400"></i>
+                        </div>
+                        <input type="text" id="search-events" class="block w-full bg-gray-700/50 border border-gray-600 rounded-lg pl-10 pr-4 py-2 text-sm text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500" placeholder="Search events...">
+                    </div>
+                    
+                    <!-- Filters -->
+                    <div class="flex flex-wrap gap-2">
+                        <select id="filter-status" class="bg-gray-700/50 border border-gray-600 rounded-lg px-3 py-2 text-sm text-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500">
+                            <option value="">All Statuses</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="planning">In Planning</option>
+                            <option value="pending">Pending</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                        
+                        <select id="filter-type" class="bg-gray-700/50 border border-gray-600 rounded-lg px-3 py-2 text-sm text-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500">
+                            <option value="">All Types</option>
+                            <option value="conference">Conference</option>
+                            <option value="meeting">Meeting</option>
+                            <option value="workshop">Workshop</option>
+                            <option value="party">Party</option>
+                            <option value="seminar">Seminar</option>
+                            <option value="other">Other</option>
+                        </select>
+                        
+                        <select id="filter-date" class="bg-gray-700/50 border border-gray-600 rounded-lg px-3 py-2 text-sm text-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500">
+                            <option value="">All Dates</option>
+                            <option value="upcoming">Upcoming</option>
+                            <option value="today">Today</option>
+                            <option value="this-week">This Week</option>
+                            <option value="this-month">This Month</option>
+                            <option value="past">Past Events</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Add New Button -->
+                    <div>
+                        <a href="add-event.html" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-pink-600 to-violet-600 hover:from-pink-500 hover:to-violet-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500">
+                            <i class="fas fa-plus mr-2"></i>
+                            Add Event
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Toggle View Buttons -->
+            <div class="flex justify-end mb-4">
+                <div class="inline-flex rounded-md shadow-sm" role="group">
+                    <button type="button" id="grid-view-btn" class="py-2 px-4 text-sm font-medium text-white bg-gray-800 rounded-l-lg border border-gray-700 hover:bg-gray-700 focus:z-10 focus:ring-2 focus:ring-violet-500 active:bg-violet-700 active:text-white">
+                        <i class="fas fa-th-large mr-1"></i> Grid
+                    </button>
+                    <button type="button" id="list-view-btn" class="py-2 px-4 text-sm font-medium text-white bg-gray-800 rounded-r-lg border border-gray-700 hover:bg-gray-700 focus:z-10 focus:ring-2 focus:ring-violet-500 active:bg-violet-700 active:text-white">
+                        <i class="fas fa-list mr-1"></i> List
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Loading State -->
+            <div id="loading-events" class="flex justify-center items-center py-20">
+                <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-violet-500"></div>
+            </div>
+            
+            <!-- Events Grid View -->
+            <div id="events-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+                <!-- Event cards will be populated by JavaScript -->
+            </div>
+            
+            <!-- Events List View -->
+            <div id="events-table" class="hidden overflow-x-auto animate-on-scroll">
+                <table class="min-w-full bg-gray-800/50 backdrop-blur-sm rounded-xl overflow-hidden">
+                    <thead class="bg-gray-700/50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Event</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Date & Time</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Location</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Status</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="events-table-body" class="divide-y divide-gray-700/50">
+                        <!-- Table rows will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- No Events State -->
+            <div id="no-events" class="hidden text-center py-20">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-800 mb-4">
+                    <i class="fas fa-calendar-times text-2xl text-gray-400"></i>
+                </div>
+                <h3 class="text-lg font-medium text-white">No events found</h3>
+                <p class="text-gray-400 mt-2">Try adjusting your filters or create a new event</p>
+                <a href="add-event.html" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500">
+                    <i class="fas fa-plus mr-2"></i>
+                    Add Event
+                </a>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="mt-8 flex justify-center">
+                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                    <button class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-700 bg-gray-800 text-sm font-medium text-gray-400 hover:bg-gray-700">
+                        <span class="sr-only">Previous</span>
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="relative inline-flex items-center px-4 py-2 border border-gray-700 bg-violet-600 text-sm font-medium text-white hover:bg-violet-700">
+                        1
+                    </button>
+                    <button class="relative inline-flex items-center px-4 py-2 border border-gray-700 bg-gray-800 text-sm font-medium text-gray-400 hover:bg-gray-700">
+                        2
+                    </button>
+                    <button class="relative inline-flex items-center px-4 py-2 border border-gray-700 bg-gray-800 text-sm font-medium text-gray-400 hover:bg-gray-700">
+                        3
+                    </button>
+                    <span class="relative inline-flex items-center px-4 py-2 border border-gray-700 bg-gray-800 text-sm font-medium text-gray-400">
+                        ...
+                    </span>
+                    <button class="relative inline-flex items-center px-4 py-2 border border-gray-700 bg-gray-800 text-sm font-medium text-gray-400 hover:bg-gray-700">
+                        8
+                    </button>
+                    <button class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-700 bg-gray-800 text-sm font-medium text-gray-400 hover:bg-gray-700">
+                        <span class="sr-only">Next</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-900/80 backdrop-blur-sm border-t border-gray-800">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-4 md:mb-0">
+                    <p class="text-sm text-gray-400">© 2025 EventPro. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-violet-400">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-violet-400">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-violet-400">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-violet-400">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle between grid and list views
+            const gridViewBtn = document.getElementById('grid-view-btn');
+            const listViewBtn = document.getElementById('list-view-btn');
+            const eventsGrid = document.getElementById('events-grid');
+            const eventsTable = document.getElementById('events-table');
+            
+            gridViewBtn.addEventListener('click', function() {
+                eventsGrid.classList.remove('hidden');
+                eventsTable.classList.add('hidden');
+                gridViewBtn.classList.add('bg-violet-700');
+                listViewBtn.classList.remove('bg-violet-700');
+            });
+            
+            listViewBtn.addEventListener('click', function() {
+                eventsGrid.classList.add('hidden');
+                eventsTable.classList.remove('hidden');
+                gridViewBtn.classList.remove('bg-violet-700');
+                listViewBtn.classList.add('bg-violet-700');
+            });
+            
+            // Fetch events from backend
+            fetchEvents();
+            
+            // Set up filters
+            const searchInput = document.getElementById('search-events');
+            const filterStatus = document.getElementById('filter-status');
+            const filterType = document.getElementById('filter-type');
+            const filterDate = document.getElementById('filter-date');
+            
+            searchInput.addEventListener('input', applyFilters);
+            filterStatus.addEventListener('change', applyFilters);
+            filterType.addEventListener('change', applyFilters);
+            filterDate.addEventListener('change', applyFilters);
+        });
+        
+        function fetchEvents() {
+            const loadingState = document.getElementById('loading-events');
+            const noEventsState = document.getElementById('no-events');
+            const eventsGrid = document.getElementById('events-grid');
+            const eventsTableBody = document.getElementById('events-table-body');
+            
+            // Show loading state
+            loadingState.classList.remove('hidden');
+            noEventsState.classList.add('hidden');
+            eventsGrid.classList.add('hidden');
+            
+            // Fetch events from backend
+            fetch('../backend/get-events.php')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(events => {
+                    // Hide loading state
+                    loadingState.classList.add('hidden');
+                    
+                    // Check if we have events
+                    if (events.length === 0) {
+                        noEventsState.classList.remove('hidden');
+                        return;
+                    }
+                    
+                    // Populate grid view
+                    populateGridView(events);
+                    
+                    // Populate list view
+                    populateListView(events);
+                    
+                    // Show grid view by default
+                    eventsGrid.classList.remove('hidden');
+                    document.getElementById('grid-view-btn').classList.add('bg-violet-700');
+                })
+                .catch(error => {
+                    console.error('Error fetching events:', error);
+                    
+                    // Hide loading state and show sample data in case of error
+                    loadingState.classList.add('hidden');
+                    
+                    // Use sample data for demonstration
+                    const sampleEvents = [
+                        {
+                            id: 1,
+                            name: 'Annual Tech Conference',
+                            date: '2025-04-20',
+                            time: '09:00:00',
+                            end_time: '17:00:00',
+                            location: 'Convention Center, Room 42',
+                            description: 'Join us for the biggest tech event of the year featuring keynotes from industry leaders.',
+                            status: 'confirmed',
+                            type: 'conference',
+                            category: 'technology',
+                            organizer: 'TechEvents Inc.'
+                        },
+                        {
+                            id: 2,
+                            name: 'Product Launch',
+                            date: '2025-04-23',
+                            time: '10:30:00',
+                            end_time: '13:30:00',
+                            location: 'Grand Plaza Hotel',
+                            description: 'Exclusive product launch event for our latest innovations.',
+                            status: 'planning',
+                            type: 'meeting',
+                            category: 'business',
+                            organizer: 'Marketing Team'
+                        },
+                        {
+                            id: 3,
+                            name: 'Team Building Workshop',
+                            date: '2025-04-29',
+                            time: '09:00:00',
+                            end_time: '16:00:00',
+                            location: 'Outdoor Adventure Park',
+                            description: 'A day of team building activities and outdoor adventures.',
+                            status: 'pending',
+                            type: 'workshop',
+                            category: 'social',
+                            organizer: 'HR Department'
+                        },
+                        {
+                            id: 4,
+                            name: 'Quarterly Business Review',
+                            date: '2025-05-05',
+                            time: '14:00:00',
+                            end_time: '17:00:00',
+                            location: 'Main Office, Conference Room A',
+                            description: 'Review of Q1 performance and planning for Q2.',
+                            status: 'confirmed',
+                            type: 'meeting',
+                            category: 'business',
+                            organizer: 'Executive Team'
+                        },
+                        {
+                            id: 5,
+                            name: 'UX Design Workshop',
+                            date: '2025-05-12',
+                            time: '10:00:00',
+                            end_time: '15:00:00',
+                            location: 'Digital Design Studio',
+                            description: 'Hands-on workshop on the latest UX design trends and practices.',
+                            status: 'planning',
+                            type: 'workshop',
+                            category: 'education',
+                            organizer: 'Design Team'
+                        },
+                        {
+                            id: 6,
+                            name: 'Summer Networking Party',
+                            date: '2025-06-15',
+                            time: '18:00:00',
+                            end_time: '22:00:00',
+                            location: 'Skyline Rooftop Lounge',
+                            description: 'Casual networking event with drinks and appetizers.',
+                            status: 'planning',
+                            type: 'party',
+                            category: 'social',
+                            organizer: 'Community Relations'
+                        }
+                    ];
+                    
+                    // Populate views with sample data
+                    populateGridView(sampleEvents);
+                    populateListView(sampleEvents);
+                    
+                    // Show grid view by default
+                    eventsGrid.classList.remove('hidden');
+                    document.getElementById('grid-view-btn').classList.add('bg-violet-700');
+                    
+                    // Show a notification of using sample data
+                    showNotification('Using sample data due to backend connection issue', 'info');
+                });
+        }
+        
+        function populateGridView(events) {
+            const eventsGrid = document.getElementById('events-grid');
+            eventsGrid.innerHTML = '';
+            
+            events.forEach(event => {
+                const eventDate = new Date(event.date + 'T' + event.time);
+                const formattedDate = formatDate(event.date);
+                const formattedTime = event.time.substring(0, 5);
+                
+                const statusClasses = {
+                    'confirmed': 'bg-emerald-500/20 text-emerald-300',
+                    'planning': 'bg-yellow-500/20 text-yellow-300',
+                    'pending': 'bg-violet-500/20 text-violet-300',
+                    'cancelled': 'bg-rose-500/20 text-rose-300'
+                };
+                
+                const statusText = {
+                    'confirmed': 'Confirmed',
+                    'planning': 'In Planning',
+                    'pending': 'Pending',
+                    'cancelled': 'Cancelled'
+                };
+                
+                const eventCard = document.createElement('div');
+                eventCard.className = 'bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden animate-on-scroll card-hover';
+                eventCard.innerHTML = `
+                    <div class="relative">
+                        <div class="absolute top-0 right-0 p-2">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusClasses[event.status] || 'bg-gray-500/20 text-gray-300'}">
+                                <span class="h-2 w-2 mr-1 ${event.status === 'confirmed' ? 'bg-emerald-400' : event.status === 'planning' ? 'bg-yellow-400' : event.status === 'pending' ? 'bg-violet-400' : 'bg-rose-400'} rounded-full"></span>
+                                ${statusText[event.status] || 'Unknown'}
+                            </span>
+                        </div>
+                        <div class="h-3 bg-gradient-to-r ${event.category === 'technology' ? 'from-cyan-600 to-blue-600' : event.category === 'business' ? 'from-indigo-600 to-purple-600' : event.category === 'education' ? 'from-green-600 to-teal-600' : event.category === 'social' ? 'from-pink-600 to-rose-600' : 'from-violet-600 to-purple-600'}"></div>
+                        <div class="p-6">
+                            <h3 class="font-bold text-lg text-white mb-2">${event.name}</h3>
+                            <p class="text-sm text-gray-300 mb-4 line-clamp-2">${event.description}</p>
+                            
+                            <div class="space-y-2">
+                                <div class="flex items-center text-sm">
+                                    <i class="fas fa-calendar-day text-violet-400 mr-3 w-4 text-center"></i>
+                                    <span>${formattedDate}</span>
+                                </div>
+                                
+                                <div class="flex items-center text-sm">
+                                    <i class="fas fa-clock text-pink-400 mr-3 w-4 text-center"></i>
+                                    <span>${formattedTime} - ${event.end_time ? event.end_time.substring(0, 5) : ''}</span>
+                                </div>
+                                
+                                <div class="flex items-center text-sm">
+                                    <i class="fas fa-map-marker-alt text-cyan-400 mr-3 w-4 text-center"></i>
+                                    <span class="truncate">${event.location}</span>
+                                </div>
+                                
+                                <div class="flex items-center text-sm">
+                                    <i class="fas fa-user text-emerald-400 mr-3 w-4 text-center"></i>
+                                    <span>${event.organizer || 'Not specified'}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 flex justify-end space-x-2">
+                                <button class="p-2 text-gray-400 hover:text-white transition-colors rounded-full hover:bg-gray-700" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="p-2 text-gray-400 hover:text-white transition-colors rounded-full hover:bg-gray-700" title="Duplicate">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="p-2 text-gray-400 hover:text-rose-400 transition-colors rounded-full hover:bg-gray-700" title="Delete">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                eventsGrid.appendChild(eventCard);
+            });
+        }
+        
+        function populateListView(events) {
+            const eventsTableBody = document.getElementById('events-table-body');
+            eventsTableBody.innerHTML = '';
+            
+            events.forEach(event => {
+                const eventDate = new Date(event.date + 'T' + event.time);
+                const formattedDate = formatDate(event.date);
+                const formattedTime = event.time.substring(0, 5);
+                
+                const statusClasses = {
+                    'confirmed': 'bg-emerald-500/20 text-emerald-300',
+                    'planning': 'bg-yellow-500/20 text-yellow-300',
+                    'pending': 'bg-violet-500/20 text-violet-300',
+                    'cancelled': 'bg-rose-500/20 text-rose-300'
+                };
+                
+                const statusText = {
+                    'confirmed': 'Confirmed',
+                    'planning': 'In Planning',
+                    'pending': 'Pending',
+                    'cancelled': 'Cancelled'
+                };
+                
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-700/30 transition-colors';
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-md ${event.category === 'technology' ? 'bg-cyan-500/20' : event.category === 'business' ? 'bg-indigo-500/20' : event.category === 'education' ? 'bg-green-500/20' : event.category === 'social' ? 'bg-pink-500/20' : 'bg-violet-500/20'}">
+                                <i class="fas ${event.type === 'conference' ? 'fa-microphone' : event.type === 'meeting' ? 'fa-users' : event.type === 'workshop' ? 'fa-laptop-code' : event.type === 'party' ? 'fa-glass-cheers' : event.type === 'seminar' ? 'fa-chalkboard-teacher' : 'fa-calendar-day'} ${event.category === 'technology' ? 'text-cyan-400' : event.category === 'business' ? 'text-indigo-400' : event.category === 'education' ? 'text-green-400' : event.category === 'social' ? 'text-pink-400' : 'text-violet-400'}"></i>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-white">${event.name}</div>
+                                <div class="text-sm text-gray-400">${event.type.charAt(0).toUpperCase() + event.type.slice(1)}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-white">${formattedDate}</div>
+                        <div class="text-sm text-gray-400">${formattedTime} - ${event.end_time ? event.end_time.substring(0, 5) : ''}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-white">${event.location}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusClasses[event.status] || 'bg-gray-500/20 text-gray-300'}">
+                            <span class="h-2 w-2 mr-1 ${event.status === 'confirmed' ? 'bg-emerald-400' : event.status === 'planning' ? 'bg-yellow-400' : event.status === 'pending' ? 'bg-violet-400' : 'bg-rose-400'} rounded-full"></span>
+                            ${statusText[event.status] || 'Unknown'}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                        <div class="flex space-x-2">
+                            <button class="text-gray-400 hover:text-violet-400 transition-colors" title="View Details">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="text-gray-400 hover:text-violet-400 transition-colors" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="text-gray-400 hover:text-violet-400 transition-colors" title="Duplicate">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button class="text-gray-400 hover:text-rose-400 transition-colors" title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                eventsTableBody.appendChild(row);
+            });
+        }
+        
+        function applyFilters() {
+            const searchQuery = document.getElementById('search-events').value.toLowerCase();
+            const statusFilter = document.getElementById('filter-status').value;
+            const typeFilter = document.getElementById('filter-type').value;
+            const dateFilter = document.getElementById('filter-date').value;
+            
+            const gridItems = document.querySelectorAll('#events-grid > div');
+            const tableRows = document.querySelectorAll('#events-table-body > tr');
+            
+            // For simplicity, we'll just hide all items when filters are applied in this frontend mockup
+            // In a real application, you would re-fetch filtered data from the backend
+            
+            if (searchQuery || statusFilter || typeFilter || dateFilter) {
+                gridItems.forEach(item => {
+                    item.classList.add('hidden');
+                });
+                
+                tableRows.forEach(row => {
+                    row.classList.add('hidden');
+                });
+                
+                // Show no events state
+                document.getElementById('no-events').classList.remove('hidden');
+                
+                // Show a message about using backend for real filtering
+                showNotification('Filtering would be handled by backend in a real application', 'info');
+            } else {
+                gridItems.forEach(item => {
+                    item.classList.remove('hidden');
+                });
+                
+                tableRows.forEach(row => {
+                    row.classList.remove('hidden');
+                });
+                
+                // Hide no events state
+                document.getElementById('no-events').classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

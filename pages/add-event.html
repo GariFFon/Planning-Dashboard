@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventPro - Add Event</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .input-group input, 
+        .input-group textarea,
+        .input-group select {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 16px;
+            color: white;
+            background: rgba(31, 41, 55, 0.3);
+            border: 1px solid rgba(75, 85, 99, 0.4);
+            border-radius: 0.375rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .input-group label {
+            position: absolute;
+            top: -12px;
+            left: 10px;
+            padding: 0 5px;
+            font-size: 14px;
+            color: rgb(156, 163, 175);
+            background: rgba(17, 24, 39, 0.8);
+            border-radius: 3px;
+            transition: 0.3s ease all;
+        }
+        .input-group input:focus,
+        .input-group textarea:focus,
+        .input-group select:focus {
+            border-color: #a78bfa;
+            box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.2);
+        }
+        .input-group input:focus ~ label,
+        .input-group textarea:focus ~ label,
+        .input-group select:focus ~ label {
+            color: #a78bfa;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-black to-gray-800 min-h-screen text-white">
+    <!-- Notification Area -->
+    <div id="notification-area" class="fixed top-5 right-5 z-50 space-y-3"></div>
+    
+    <!-- Navbar -->
+    <nav class="navbar fixed w-full bg-gray-900/70 backdrop-blur-md z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-violet-500 to-cyan-500">EventPro</h1>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-8">
+                        <a href="index.html" class="navbar-link text-gray-300 hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Dashboard</a>
+                        <a href="add-event.html" class="navbar-link text-white hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Add Event</a>
+                        <a href="events.html" class="navbar-link text-gray-300 hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Events</a>
+                        <a href="calendar.html" class="navbar-link text-gray-300 hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Calendar</a>
+                        <a href="profile.html" class="navbar-link text-gray-300 hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Profile</a>
+                        <a href="settings.html" class="navbar-link text-gray-300 hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Settings</a>
+                        <a href="login.html" class="navbar-link text-gray-300 hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Logout</a>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="menu-toggle" type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-900/90 backdrop-blur-md">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-gray-300 font-medium hover:bg-gray-700 hover:text-white">Dashboard</a>
+                <a href="add-event.html" class="block px-3 py-2 rounded-md text-white font-medium hover:bg-gray-700">Add Event</a>
+                <a href="events.html" class="block px-3 py-2 rounded-md text-gray-300 font-medium hover:bg-gray-700 hover:text-white">Events</a>
+                <a href="calendar.html" class="block px-3 py-2 rounded-md text-gray-300 font-medium hover:bg-gray-700 hover:text-white">Calendar</a>
+                <a href="profile.html" class="block px-3 py-2 rounded-md text-gray-300 font-medium hover:bg-gray-700 hover:text-white">Profile</a>
+                <a href="settings.html" class="block px-3 py-2 rounded-md text-gray-300 font-medium hover:bg-gray-700 hover:text-white">Settings</a>
+                <a href="login.html" class="block px-3 py-2 rounded-md text-gray-300 font-medium hover:bg-gray-700 hover:text-white">Logout</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="pt-20 pb-12">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Header -->
+            <div class="animate-on-scroll text-center mb-8">
+                <h2 class="text-3xl font-bold text-white mb-2">Create New Event</h2>
+                <p class="text-gray-400">Fill out the form below to add a new event to your calendar</p>
+            </div>
+            
+            <!-- Form Container -->
+            <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden animate-on-scroll">
+                <div class="p-6 sm:p-8">
+                    <form action="/Event%20Planning/backend/add-event.php" method="POST" class="space-y-6">
+                        <!-- Event Name -->
+                        <div class="input-group">
+                            <input type="text" id="event_name" name="name" required>
+                            <label for="event_name">Event Name</label>
+                        </div>
+                        
+                        <!-- Event Type & Category -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="input-group">
+                                <select id="event_type" name="type" required>
+                                    <option value="">Select Type</option>
+                                    <option value="conference">Conference</option>
+                                    <option value="meeting">Meeting</option>
+                                    <option value="workshop">Workshop</option>
+                                    <option value="party">Party</option>
+                                    <option value="seminar">Seminar</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <label for="event_type">Event Type</label>
+                            </div>
+                            
+                            <div class="input-group">
+                                <select id="event_category" name="category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="business">Business</option>
+                                    <option value="technology">Technology</option>
+                                    <option value="education">Education</option>
+                                    <option value="social">Social</option>
+                                    <option value="entertainment">Entertainment</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <label for="event_category">Category</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Date & Time -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="input-group">
+                                <input type="date" id="event_date" name="event_date" required>
+                                <label for="event_date">Date</label>
+                            </div>
+                            
+                            <div class="input-group">
+                                <input type="time" id="event_time" name="event_time" required>
+                                <label for="event_time">Time</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Duration & End Time -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="input-group">
+                                <input type="number" id="event_duration" name="duration" placeholder="Duration in hours" min="0.5" step="0.5">
+                                <label for="event_duration">Duration (hours)</label>
+                            </div>
+                            
+                            <div class="input-group">
+                                <input type="time" id="event_end_time" name="end_time">
+                                <label for="event_end_time">End Time (optional)</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Location -->
+                        <div class="input-group">
+                            <input type="text" id="event_location" name="location" required>
+                            <label for="event_location">Location</label>
+                        </div>
+                        
+                        <!-- Description -->
+                        <div class="input-group">
+                            <textarea id="event_description" name="description" rows="4" required></textarea>
+                            <label for="event_description">Description</label>
+                        </div>
+                        
+                        <!-- Status & Capacity -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="input-group">
+                                <select id="event_status" name="status" required>
+                                    <option value="planning">In Planning</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                                <label for="event_status">Status</label>
+                            </div>
+                            
+                            <div class="input-group">
+                                <input type="number" id="event_capacity" name="capacity" placeholder="Max attendees" min="1">
+                                <label for="event_capacity">Capacity</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Organizer & Contact -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="input-group">
+                                <input type="text" id="event_organizer" name="organizer">
+                                <label for="event_organizer">Organizer</label>
+                            </div>
+                            
+                            <div class="input-group">
+                                <input type="email" id="event_contact_email" name="contact_email">
+                                <label for="event_contact_email">Contact Email</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Buttons -->
+                        <div class="flex items-center justify-end space-x-4 pt-4">
+                            <button type="button" class="px-5 py-2 border border-gray-600 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">
+                                Cancel
+                            </button>
+                            <button type="submit" class="px-5 py-2.5 rounded-md bg-gradient-to-r from-violet-600 to-cyan-500 text-white font-medium shadow-lg hover:from-violet-500 hover:to-cyan-400 transition-all duration-300 transform hover:scale-[1.02]">
+                                <span class="flex items-center">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    Create Event
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-900/80 backdrop-blur-sm border-t border-gray-800">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-4 md:mb-0">
+                    <p class="text-sm text-gray-400">© 2025 EventPro. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-violet-400">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-violet-400">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-violet-400">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-violet-400">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="../js/main.js"></script>
+    <script>
+        // Additional form-specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-calculate end time based on start time and duration
+            const startTimeInput = document.getElementById('event_time');
+            const durationInput = document.getElementById('event_duration');
+            const endTimeInput = document.getElementById('event_end_time');
+            
+            function updateEndTime() {
+                if (startTimeInput.value && durationInput.value) {
+                    const [hours, minutes] = startTimeInput.value.split(':').map(Number);
+                    const durationHours = parseFloat(durationInput.value);
+                    
+                    const totalMinutes = hours * 60 + minutes + durationHours * 60;
+                    const endHours = Math.floor(totalMinutes / 60) % 24;
+                    const endMinutes = Math.floor(totalMinutes % 60);
+                    
+                    endTimeInput.value = `${endHours.toString().padStart(2, '0')}:${endMinutes.toString().padStart(2, '0')}`;
+                }
+            }
+            
+            startTimeInput.addEventListener('change', updateEndTime);
+            durationInput.addEventListener('input', updateEndTime);
+            
+            // Form validation example
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(event) {
+                let isValid = true;
+                
+                // Validate required fields or specific conditions
+                const eventName = document.getElementById('event_name').value.trim();
+                if (eventName.length < 3) {
+                    showNotification('Event name must be at least 3 characters long', 'error');
+                    isValid = false;
+                }
+                
+                if (!isValid) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

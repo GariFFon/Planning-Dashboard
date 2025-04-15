@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventPro - Calendar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .calendar-cell {
+            aspect-ratio: 1;
+            transition: all 0.2s ease;
+        }
+        
+        .calendar-cell:hover:not(.calendar-cell-disabled) {
+            transform: scale(1.03);
+            background-color: rgba(139, 92, 246, 0.1);
+        }
+        
+        .calendar-cell-today {
+            border: 2px solid rgba(139, 92, 246, 0.5);
+        }
+        
+        .calendar-cell-active {
+            background-color: rgba(139, 92, 246, 0.2);
+        }
+        
+        .calendar-cell-disabled {
+            opacity: 0.35;
+        }
+        
+        .event-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-black to-gray-800 min-h-screen text-white">
+    <!-- Notification Area -->
+    <div id="notification-area" class="fixed top-5 right-5 z-50 space-y-3"></div>
+    
+    <!-- Navbar -->
+    <nav class="navbar fixed w-full bg-gray-900/70 backdrop-blur-md z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-violet-500 to-cyan-500">EventPro</h1>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-8">
+                        <a href="index.html" class="navbar-link text-gray-300 hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Dashboard</a>
+                        <a href="add-event.html" class="navbar-link text-gray-300 hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Add Event</a>
+                        <a href="events.html" class="navbar-link text-gray-300 hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Events</a>
+                        <a href="calendar.html" class="navbar-link text-white hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Calendar</a>
+                        <a href="profile.html" class="navbar-link text-gray-300 hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Profile</a>
+                        <a href="settings.html" class="navbar-link text-gray-300 hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Settings</a>
+                        <a href="login.html" class="navbar-link text-gray-300 hover:text-violet-400 transition-colors px-1 py-2 text-sm font-medium">Logout</a>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="menu-toggle" type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-900/90 backdrop-blur-md">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-gray-300 font-medium hover:bg-gray-700 hover:text-white">Dashboard</a>
+                <a href="add-event.html" class="block px-3 py-2 rounded-md text-gray-300 font-medium hover:bg-gray-700 hover:text-white">Add Event</a>
+                <a href="events.html" class="block px-3 py-2 rounded-md text-gray-300 font-medium hover:bg-gray-700 hover:text-white">Events</a>
+                <a href="calendar.html" class="block px-3 py-2 rounded-md text-white font-medium hover:bg-gray-700">Calendar</a>
+                <a href="profile.html" class="block px-3 py-2 rounded-md text-gray-300 font-medium hover:bg-gray-700 hover:text-white">Profile</a>
+                <a href="settings.html" class="block px-3 py-2 rounded-md text-gray-300 font-medium hover:bg-gray-700 hover:text-white">Settings</a>
+                <a href="login.html" class="block px-3 py-2 rounded-md text-gray-300 font-medium hover:bg-gray-700 hover:text-white">Logout</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="pt-20 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Header -->
+            <div class="animate-on-scroll mb-8">
+                <h2 class="text-3xl font-bold text-white mb-2">Calendar</h2>
+                <p class="text-gray-400">View and manage your events in a calendar view</p>
+            </div>
+            
+            <!-- Calendar Header -->
+            <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 mb-4 animate-on-scroll">
+                <div class="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0">
+                    <!-- Month Navigation -->
+                    <div class="flex items-center space-x-4">
+                        <button id="prev-month" class="p-2 rounded-lg bg-gray-700/50 hover:bg-gray-700 transition-colors">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <h3 id="current-month" class="text-xl font-bold text-white">April 2025</h3>
+                        <button id="next-month" class="p-2 rounded-lg bg-gray-700/50 hover:bg-gray-700 transition-colors">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- View Options & Controls -->
+                    <div class="flex flex-wrap gap-2">
+                        <div class="inline-flex rounded-md shadow-sm" role="group">
+                            <button type="button" id="month-view-btn" class="py-2 px-4 text-sm font-medium text-white bg-violet-600 rounded-l-lg border border-violet-700 focus:z-10 focus:ring-2 focus:ring-violet-500">
+                                Month
+                            </button>
+                            <button type="button" id="week-view-btn" class="py-2 px-4 text-sm font-medium text-white bg-gray-800 border-t border-b border-violet-700 focus:z-10 focus:ring-2 focus:ring-violet-500">
+                                Week
+                            </button>
+                            <button type="button" id="day-view-btn" class="py-2 px-4 text-sm font-medium text-white bg-gray-800 rounded-r-lg border border-violet-700 focus:z-10 focus:ring-2 focus:ring-violet-500">
+                                Day
+                            </button>
+                        </div>
+                        
+                        <button id="today-btn" class="py-2 px-4 text-sm font-medium text-white bg-cyan-600 rounded-lg border border-cyan-700 hover:bg-cyan-700 focus:z-10 focus:ring-2 focus:ring-cyan-500">
+                            Today
+                        </button>
+                        
+                        <a href="add-event.html" class="inline-flex items-center py-2 px-4 text-sm font-medium text-white bg-gradient-to-r from-pink-600 to-violet-600 rounded-lg border border-pink-700 hover:from-pink-500 hover:to-violet-500 focus:z-10 focus:ring-2 focus:ring-pink-500">
+                            <i class="fas fa-plus mr-2"></i>
+                            Add Event
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Calendar Container -->
+            <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl overflow-hidden shadow-xl animate-on-scroll">
+                <!-- Month View (Default) -->
+                <div id="month-view" class="calendar-view">
+                    <!-- Weekday Headers -->
+                    <div class="grid grid-cols-7 bg-gray-700/50 text-center font-medium text-gray-300 border-b border-gray-700">
+                        <div class="py-3">Sun</div>
+                        <div class="py-3">Mon</div>
+                        <div class="py-3">Tue</div>
+                        <div class="py-3">Wed</div>
+                        <div class="py-3">Thu</div>
+                        <div class="py-3">Fri</div>
+                        <div class="py-3">Sat</div>
+                    </div>
+                    
+                    <!-- Calendar Grid -->
+                    <div class="grid grid-cols-7 border-b border-gray-700">
+                        <!-- Previous Month Days (Disabled) -->
+                        <div class="calendar-cell calendar-cell-disabled border-r border-b border-gray-700 p-2">
+                            <div class="text-sm text-gray-500">30</div>
+                        </div>
+                        <div class="calendar-cell calendar-cell-disabled border-r border-b border-gray-700 p-2">
+                            <div class="text-sm text-gray-500">31</div>
+                        </div>
+                        
+                        <!-- April Days -->
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">1</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">2</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">3</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">4</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">5</div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-7 border-b border-gray-700">
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">6</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">7</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">8</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">9</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">10</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">11</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">12</div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-7 border-b border-gray-700">
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">13</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">14</div>
+                        </div>
+                        <div class="calendar-cell calendar-cell-today border-r border-b border-gray-700 p-2">
+                            <div class="text-sm font-semibold">15</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">16</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">17</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">18</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">19</div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-7 border-b border-gray-700">
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">20</div>
+                            <div class="mt-1 text-xs px-1.5 py-0.5 bg-emerald-500/20 text-emerald-300 rounded truncate">Tech Conference</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">21</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">22</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">23</div>
+                            <div class="mt-1 text-xs px-1.5 py-0.5 bg-yellow-500/20 text-yellow-300 rounded truncate">Product Launch</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">24</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">25</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">26</div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-7 border-b border-gray-700">
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">27</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">28</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">29</div>
+                            <div class="mt-1 text-xs px-1.5 py-0.5 bg-violet-500/20 text-violet-300 rounded truncate">Team Building</div>
+                        </div>
+                        <div class="calendar-cell border-r border-b border-gray-700 p-2">
+                            <div class="text-sm">30</div>
+                        </div>
+                        <div class="calendar-cell calendar-cell-disabled border-r border-b border-gray-700 p-2">
+                            <div class="text-sm text-gray-500">1</div>
+                        </div>
+                        <div class="calendar-cell calendar-cell-disabled border-r border-b border-gray-700 p-2">
+                            <div class="text-sm text-gray-500">2</div>
+                        </div>
+                        <div class="calendar-cell calendar-cell-disabled border-r border-b border-gray-700 p-2">
+                            <div class="text-sm text-gray-500">3</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Week View (Hidden by default) -->
+                <div id="week-view" class="calendar-view hidden">
+                    <div class="text-center p-8">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-700/50 mb-4">
+                            <i class="fas fa-calendar-week text-3xl text-violet-400"></i>
+                        </div>
+                        <h3 class="text-lg font-medium text-white">Week View Coming Soon</h3>
+                        <p class="text-gray-400 mt-2">This feature is currently under development</p>
+                    </div>
+                </div>
+                
+                <!-- Day View (Hidden by default) -->
+                <div id="day-view" class="calendar-view hidden">
+                    <div class="text-center p-8">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-700/50 mb-4">
+                            <i class="fas fa-calendar-day text-3xl text-violet-400"></i>
+                        </div>
+                        <h3 class="text-lg font-medium text-white">Day View Coming Soon</h3>
+                        <p class="text-gray-400 mt-2">This feature is currently under development</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Event Legend -->
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-gray-800/50 backdrop-blur-sm rounded-lg p-4 flex items-center space-x-3">
+                    <div class="h-4 w-4 rounded-full bg-emerald-500"></div>
+                    <span class="text-sm text-gray-300">Confirmed Events</span>
+                </div>
+                <div class="bg-gray-800/50 backdrop-blur-sm rounded-lg p-4 flex items-center space-x-3">
+                    <div class="h-4 w-4 rounded-full bg-yellow-500"></div>
+                    <span class="text-sm text-gray-300">In Planning</span>
+                </div>
+                <div class="bg-gray-800/50 backdrop-blur-sm rounded-lg p-4 flex items-center space-x-3">
+                    <div class="h-4 w-4 rounded-full bg-violet-500"></div>
+                    <span class="text-sm text-gray-300">Pending Events</span>
+                </div>
+                <div class="bg-gray-800/50 backdrop-blur-sm rounded-lg p-4 flex items-center space-x-3">
+                    <div class="h-4 w-4 rounded-full bg-rose-500"></div>
+                    <span class="text-sm text-gray-300">Cancelled Events</span>
+                </div>
+            </div>
+            
+            <!-- Upcoming Events Section -->
+            <div class="mt-8 animate-on-scroll">
+                <h3 class="text-xl font-bold text-white mb-4">Upcoming Events</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Event 1 -->
+                    <div class="bg-gray-800/50 backdrop-blur-sm rounded-lg overflow-hidden card-hover">
+                        <div class="h-2 bg-emerald-500"></div>
+                        <div class="p-4">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-semibold text-white">Annual Tech Conference</h4>
+                                <span class="text-xs text-gray-400">in 5 days</span>
+                            </div>
+                            <div class="mt-2 flex items-center text-sm text-gray-300">
+                                <i class="fas fa-calendar-day text-emerald-400 mr-2"></i>
+                                April 20, 2025 • 09:00 AM - 05:00 PM
+                            </div>
+                            <div class="mt-1 flex items-center text-sm text-gray-300">
+                                <i class="fas fa-map-marker-alt text-emerald-400 mr-2"></i>
+                                Convention Center, Room 42
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Event 2 -->
+                    <div class="bg-gray-800/50 backdrop-blur-sm rounded-lg overflow-hidden card-hover">
+                        <div class="h-2 bg-yellow-500"></div>
+                        <div class="p-4">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-semibold text-white">Product Launch</h4>
+                                <span class="text-xs text-gray-400">in 8 days</span>
+                            </div>
+                            <div class="mt-2 flex items-center text-sm text-gray-300">
+                                <i class="fas fa-calendar-day text-yellow-400 mr-2"></i>
+                                April 23, 2025 • 10:30 AM - 01:30 PM
+                            </div>
+                            <div class="mt-1 flex items-center text-sm text-gray-300">
+                                <i class="fas fa-map-marker-alt text-yellow-400 mr-2"></i>
+                                Grand Plaza Hotel
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Event 3 -->
+                    <div class="bg-gray-800/50 backdrop-blur-sm rounded-lg overflow-hidden card-hover">
+                        <div class="h-2 bg-violet-500"></div>
+                        <div class="p-4">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-semibold text-white">Team Building Workshop</h4>
+                                <span class="text-xs text-gray-400">in 14 days</span>
+                            </div>
+                            <div class="mt-2 flex items-center text-sm text-gray-300">
+                                <i class="fas fa-calendar-day text-violet-400 mr-2"></i>
+                                April 29, 2025 • 09:00 AM - 04:00 PM
+                            </div>
+                            <div class="mt-1 flex items-center text-sm text-gray-300">
+                                <i class="fas fa-map-marker-alt text-violet-400 mr-2"></i>
+                                Outdoor Adventure Park
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-900/80 backdrop-blur-sm border-t border-gray-800">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-4 md:mb-0">
+                    <p class="text-sm text-gray-400">© 2025 EventPro. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-violet-400">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-violet-400">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-violet-400">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-violet-400">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle between different calendar views
+            const monthViewBtn = document.getElementById('month-view-btn');
+            const weekViewBtn = document.getElementById('week-view-btn');
+            const dayViewBtn = document.getElementById('day-view-btn');
+            
+            const monthView = document.getElementById('month-view');
+            const weekView = document.getElementById('week-view');
+            const dayView = document.getElementById('day-view');
+            
+            monthViewBtn.addEventListener('click', function() {
+                monthView.classList.remove('hidden');
+                weekView.classList.add('hidden');
+                dayView.classList.add('hidden');
+                
+                monthViewBtn.classList.add('bg-violet-600');
+                weekViewBtn.classList.remove('bg-violet-600');
+                dayViewBtn.classList.remove('bg-violet-600');
+                
+                monthViewBtn.classList.remove('bg-gray-800');
+                weekViewBtn.classList.add('bg-gray-800');
+                dayViewBtn.classList.add('bg-gray-800');
+            });
+            
+            weekViewBtn.addEventListener('click', function() {
+                monthView.classList.add('hidden');
+                weekView.classList.remove('hidden');
+                dayView.classList.add('hidden');
+                
+                monthViewBtn.classList.remove('bg-violet-600');
+                weekViewBtn.classList.add('bg-violet-600');
+                dayViewBtn.classList.remove('bg-violet-600');
+                
+                monthViewBtn.classList.add('bg-gray-800');
+                weekViewBtn.classList.remove('bg-gray-800');
+                dayViewBtn.classList.add('bg-gray-800');
+            });
+            
+            dayViewBtn.addEventListener('click', function() {
+                monthView.classList.add('hidden');
+                weekView.classList.add('hidden');
+                dayView.classList.remove('hidden');
+                
+                monthViewBtn.classList.remove('bg-violet-600');
+                weekViewBtn.classList.remove('bg-violet-600');
+                dayViewBtn.classList.add('bg-violet-600');
+                
+                monthViewBtn.classList.add('bg-gray-800');
+                weekViewBtn.classList.add('bg-gray-800');
+                dayViewBtn.classList.remove('bg-gray-800');
+            });
+            
+            // Month navigation (placeholder functionality)
+            const prevMonthBtn = document.getElementById('prev-month');
+            const nextMonthBtn = document.getElementById('next-month');
+            const currentMonthElement = document.getElementById('current-month');
+            
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            let currentMonthIndex = 3; // April
+            let currentYear = 2025;
+            
+            function updateMonthDisplay() {
+                currentMonthElement.textContent = `${months[currentMonthIndex]} ${currentYear}`;
+                
+                // Here we would also update the calendar grid with the new month's data
+                // For this demo, we just show a notification
+                showNotification(`Switched to ${months[currentMonthIndex]} ${currentYear}`, 'info');
+            }
+            
+            prevMonthBtn.addEventListener('click', function() {
+                currentMonthIndex--;
+                if (currentMonthIndex < 0) {
+                    currentMonthIndex = 11;
+                    currentYear--;
+                }
+                updateMonthDisplay();
+            });
+            
+            nextMonthBtn.addEventListener('click', function() {
+                currentMonthIndex++;
+                if (currentMonthIndex > 11) {
+                    currentMonthIndex = 0;
+                    currentYear++;
+                }
+                updateMonthDisplay();
+            });
+            
+            // Today button
+            const todayBtn = document.getElementById('today-btn');
+            
+            todayBtn.addEventListener('click', function() {
+                // Reset to April 2025 (demo current date)
+                currentMonthIndex = 3;
+                currentYear = 2025;
+                updateMonthDisplay();
+                
+                // Show notification
+                showNotification('Calendar reset to current month', 'info');
+            });
+            
+            // Make calendar cells clickable
+            const calendarCells = document.querySelectorAll('.calendar-cell:not(.calendar-cell-disabled)');
+            calendarCells.forEach(cell => {
+                cell.addEventListener('click', function() {
+                    // Get the day number
+                    const day = this.querySelector('div:first-child').textContent;
+                    
+                    // Show notification
+                    showNotification(`Selected: ${months[currentMonthIndex]} ${day}, ${currentYear}`, 'info');
+                    
+                    // Toggle active state
+                    this.classList.toggle('calendar-cell-active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
