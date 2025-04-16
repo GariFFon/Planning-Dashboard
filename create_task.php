@@ -107,6 +107,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <!-- Include Framer Motion for modern animations -->
     <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <!-- Include Particles.js for interactive background -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
         :root {
             --background-gradient: linear-gradient(135deg, #0F172A, #1E293B, #334155);
@@ -114,6 +116,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             --glass-bg: rgba(15, 23, 42, 0.6);
             --card-border: 1px solid rgba(255, 255, 255, 0.08);
             --card-bg: rgba(30, 41, 59, 0.3);
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --glow-color: rgba(139, 92, 246, 0.15);
         }
         
         body {
@@ -125,12 +129,124 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 0;
             color: white;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            position: relative;
+            overflow-x: hidden;
         }
         
         @keyframes AnimateBackground {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
+        }
+        
+        /* Enhanced animated background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        
+        .bg-animation::before,
+        .bg-animation::after {
+            content: '';
+            position: absolute;
+            width: 300%;
+            height: 300%;
+            top: -100%;
+            left: -100%;
+            z-index: -1;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, rgba(139, 92, 246, 0.05) 25%, rgba(236, 72, 153, 0.05) 50%, rgba(20, 184, 166, 0.05) 75%, rgba(245, 158, 11, 0.1) 100%);
+            animation: rotateBackground 60s linear infinite;
+        }
+        
+        .bg-animation::after {
+            filter: blur(30px);
+            opacity: 0.5;
+            animation-duration: 45s;
+            animation-direction: reverse;
+        }
+        
+        @keyframes rotateBackground {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Animated gradient orbs */
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(70px);
+            opacity: 0.3;
+            background-image: radial-gradient(circle, var(--orb-color-center) 0%, var(--orb-color-outer) 70%);
+            mix-blend-mode: screen;
+            pointer-events: none;
+            transform-origin: center;
+            z-index: 0;
+        }
+
+        /* Card highlight effect */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.05),
+                transparent
+            );
+            transition: 0.5s;
+            z-index: -1;
+        }
+        
+        .card:hover::before {
+            left: 100%;
+        }
+        
+        /* Shimmer animation for cards */
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .shimmer-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shimmer-effect::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            transform: translateX(-100%);
+            animation: shimmer 3s infinite;
         }
         
         /* Floating navbar styles */
@@ -345,7 +461,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body class="min-h-screen relative overflow-x-hidden">
-    <!-- Animated background blobs -->
+    <!-- Particles.js background -->
+    <div id="particles-js"></div>
+    
+    <!-- Animated background overlay -->
+    <div class="bg-animation"></div>
+    
+    <!-- Animated gradient orbs -->
+    <div class="gradient-orb" style="--orb-color-center: rgba(37, 99, 235, 0.3); --orb-color-outer: rgba(37, 99, 235, 0); width: 800px; height: 800px; top: -200px; left: -200px;"></div>
+    <div class="gradient-orb" style="--orb-color-center: rgba(139, 92, 246, 0.3); --orb-color-outer: rgba(139, 92, 246, 0); width: 600px; height: 600px; bottom: -100px; right: -100px;"></div>
+    <div class="gradient-orb" style="--orb-color-center: rgba(236, 72, 153, 0.3); --orb-color-outer: rgba(236, 72, 153, 0); width: 500px; height: 500px; top: 40%; left: 60%;"></div>
+    <div class="gradient-orb" style="--orb-color-center: rgba(20, 184, 166, 0.2); --orb-color-outer: rgba(20, 184, 166, 0); width: 400px; height: 400px; top: 65%; left: 25%;"></div>
+    
+    <!-- Original floating blobs -->
     <div class="floating-blob bg-blue-600" style="width: 600px; height: 600px; top: -300px; left: -200px;"></div>
     <div class="floating-blob bg-purple-600" style="width: 500px; height: 500px; bottom: -200px; right: -150px;"></div>
     <div class="floating-blob bg-pink-600" style="width: 400px; height: 400px; top: 30%; left: 70%;"></div>
@@ -673,6 +801,176 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            // Initialize Particles.js
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#ffffff"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.2,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 2,
+                            "size_min": 0.3,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#ffffff",
+                        "opacity": 0.1,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 1,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 0.3
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+            
+            // Initialize Framer Motion if available
+            const motion = window.framerMotion?.motion;
+            
+            // Animate the floating blobs with more dynamic movement
+            const blobs = document.querySelectorAll('.floating-blob');
+            blobs.forEach((blob, index) => {
+                gsap.to(blob, {
+                    x: `random(-100, 100, 5)`,
+                    y: `random(-100, 100, 5)`,
+                    scale: `random(0.8, 1.2, 0.05)`,
+                    duration: 10 + index * 2,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            });
+            
+            // Animate the gradient orbs with rotation and pulsing
+            const orbs = document.querySelectorAll('.gradient-orb');
+            orbs.forEach((orb, index) => {
+                // Create a timeline for more complex animations
+                const tl = gsap.timeline({ repeat: -1, yoyo: true });
+                
+                // Random movement
+                tl.to(orb, {
+                    x: `random(-150, 150, 10)`,
+                    y: `random(-150, 150, 10)`,
+                    scale: `random(0.85, 1.15, 0.05)`,
+                    rotation: `random(-15, 15, 1)`,
+                    duration: 12 + index * 3,
+                    ease: "sine.inOut"
+                });
+                
+                // Set different opacity for each orb to create depth
+                gsap.set(orb, { opacity: 0.1 + (index * 0.05) });
+            });
+            
+            // Add parallax effect to the background
+            document.addEventListener('mousemove', function(e) {
+                const mouseX = e.clientX;
+                const mouseY = e.clientY;
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+                
+                // Calculate movement percentage
+                const moveX = (mouseX - (windowWidth / 2)) / (windowWidth / 2) * -15;
+                const moveY = (mouseY - (windowHeight / 2)) / (windowHeight / 2) * -15;
+                
+                // Apply parallax to gradient orbs
+                gsap.to('.gradient-orb', {
+                    x: (i) => moveX * (i * 0.5 + 1),
+                    y: (i) => moveY * (i * 0.5 + 1),
+                    duration: 1,
+                    ease: "power1.out"
+                });
+            });
+            
+            // Add shimmer effect to card
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.classList.add('shimmer-effect');
+            });
+            
             // Priority selector functionality
             document.querySelectorAll('.priority-option input').forEach(function(radio) {
                 radio.addEventListener('change', function() {
@@ -863,19 +1161,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     }
                 });
             }
-            
-            // Animate background blobs
-            const blobs = document.querySelectorAll('.floating-blob');
-            blobs.forEach((blob, index) => {
-                gsap.to(blob, {
-                    x: Math.random() * 80 - 40,
-                    y: Math.random() * 80 - 40,
-                    duration: 8 + index * 2,
-                    repeat: -1,
-                    yoyo: true,
-                    ease: "sine.inOut"
-                });
-            });
         });
     </script>
 </body>
