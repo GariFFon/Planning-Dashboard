@@ -8,6 +8,12 @@ require_once 'includes/db_connect.php';
 // Initialize variables
 $error = '';
 
+// Check if user is already logged in
+if (isset($_SESSION['user_id'])) {
+    header("Location: dashboard.php");
+    exit;
+}
+
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get form data
@@ -39,8 +45,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['first_name'] = $user['first_name'];
                 $_SESSION['last_name'] = $user['last_name'];
                 
-                // Redirect to dashboard
-                header("Location: dashboard.php");
+                // Check if there's a redirect URL stored in session
+                if (isset($_SESSION['redirect_after_login'])) {
+                    $redirect_url = $_SESSION['redirect_after_login'];
+                    unset($_SESSION['redirect_after_login']);
+                    header("Location: $redirect_url");
+                } else {
+                    // Default redirect to dashboard
+                    header("Location: dashboard.php");
+                }
                 exit;
             } else {
                 $error = "Invalid username or password";
@@ -52,6 +65,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
     }
 }
+
+// Set page title
+$page_title = "Login - Event Dashboard";
 ?>
 
 <!DOCTYPE html>
@@ -59,404 +75,463 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Dashboard - Your All-in-One Event Management Solution</title>
+    <title><?php echo $page_title; ?></title>
+    
+    <!-- Load the modern CSS -->
     <link rel="stylesheet" href="css/styles.css">
-    <!-- Include Tailwind CSS via CDN for quick development -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        dark: {
-                            900: '#0F0F12',
-                            800: '#1A1A23',
-                            700: '#22222D',
-                            600: '#2C2C3A',
-                        },
-                        accent: {
-                            blue: '#2563EB',
-                            purple: '#8B5CF6',
-                            pink: '#EC4899',
-                            teal: '#14B8A6',
-                            amber: '#F59E0B',
-                        }
-                    },
-                    animation: {
-                        'gradient-shift': 'gradient-shift 15s ease infinite',
-                    },
-                    keyframes: {
-                        'gradient-shift': {
-                            '0%, 100%': { 'background-position': '0% 50%' },
-                            '50%': { 'background-position': '100% 50%' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Include HeroIcons -->
-    <script src="https://unpkg.com/@heroicons/v2/outline/20/esm/index.js"></script>
-    <!-- Include GSAP for animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <!-- Include Framer Motion for modern animations -->
-    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    
+    <!-- Add Inter font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    
+    <!-- Add Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
     <style>
         :root {
-            --background-gradient: linear-gradient(135deg, #0F172A, #1E293B, #334155);
-            --accent-gradient: linear-gradient(135deg, #2563EB, #8B5CF6, #EC4899);
-            --glass-bg: rgba(15, 23, 42, 0.6);
-            --card-border: 1px solid rgba(255, 255, 255, 0.08);
-            --card-bg: rgba(30, 41, 59, 0.3);
+            --primary-purple: #6a3de8;
+            --primary-light: #8a65f0;
+            --primary-dark: #4a2ec0;
+            --text-on-dark: #ffffff;
+            --text-muted: #8b8b8b;
+            --form-bg: #f5f5f5;
+            --card-border: rgba(255, 255, 255, 0.12);
         }
-        
+
         body {
-            background: var(--background-gradient);
-            background-size: 400%;
-            animation: AnimateBackground 15s ease infinite;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            background: #17123B;
         }
-        
-        @keyframes AnimateBackground {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        .floating-blob {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.4;
-            filter: blur(120px);
-            z-index: 0;
-            mix-blend-mode: overlay;
-        }
-        
-        .feature-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: var(--card-border);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(40, 50, 70, 0.4);
-        }
-        
-        .feature-icon {
-            background: var(--accent-gradient);
-            background-size: 150% 150%;
-            animation: AnimateBackground 5s ease infinite;
-        }
-        
+
         .login-container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            border: var(--card-border);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            width: 100%;
+            height: 100vh;
         }
-        
-        .login-container:hover {
-            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7);
-        }
-        
-        .glow-effect {
+
+        .login-image {
+            flex: 1;
+            background-image: url('https://images.unsplash.com/photo-1682686580391-615b1f28e330?q=80&w=2670&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2rem;
+            color: var(--text-on-dark);
         }
-        
-        .glow-effect::after {
+
+        .login-image::before {
             content: '';
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: var(--accent-gradient);
-            filter: blur(20px);
-            opacity: 0;
-            z-index: -1;
-            border-radius: inherit;
-            transition: opacity 0.3s ease;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, rgba(23, 18, 59, 0.7), rgba(23, 18, 59, 0.4));
+            z-index: 1;
         }
-        
-        .glow-effect:hover::after {
-            opacity: 0.5;
+
+        .login-image * {
+            position: relative;
+            z-index: 2;
         }
-        
-        .btn-primary {
-            background-image: var(--accent-gradient);
-            background-size: 150% 150%;
-            animation: AnimateBackground 5s ease infinite;
+
+        .logo {
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .slogan {
+            margin-bottom: 3rem;
+            font-size: 2rem;
+            font-weight: 300;
+            line-height: 1.4;
+            max-width: 80%;
+        }
+
+        .slogan strong {
+            font-weight: 600;
+        }
+
+        .dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
             transition: all 0.3s ease;
         }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px) scale(1.01);
-            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5);
+
+        .dot.active {
+            background-color: white;
+            width: 24px;
+            border-radius: 4px;
         }
-        
-        input:focus {
-            border-color: rgba(99, 102, 241, 0.8);
-            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+
+        .form-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background-color: #17123B;
+            color: white;
         }
-        
-        .animated-text {
-            background-image: var(--accent-gradient);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            background-size: 300% 300%;
-            animation: AnimateBackground 5s ease infinite;
+
+        .form-box {
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .form-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .form-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .form-header p {
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .form-header p a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: white;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-purple);
+            box-shadow: 0 0 0 3px rgba(106, 61, 232, 0.2);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-check-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .form-check-input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary-purple);
+            position: relative;
+            z-index: 10;
+        }
+
+        .forgot-link {
+            color: var(--primary-light);
+            font-size: 0.875rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-purple));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(106, 61, 232, 0.3);
+        }
+
+        .social-login {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .social-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .social-btn img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .terms-text {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 2rem;
+        }
+
+        .animate-fade-in {
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .error-message {
+            background-color: rgba(255, 87, 87, 0.1);
+            border: 1px solid rgba(255, 87, 87, 0.2);
+            color: #ff5757;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        /* Animation for background */
+        .moving-bg {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            z-index: 0;
+            opacity: 0.05;
+        }
+
+        /* Media queries for responsive design */
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+            }
+            
+            .login-image {
+                display: none;
+            }
+            
+            .form-container {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-4 overflow-x-hidden">
-    <!-- Animated background blobs -->
-    <div class="floating-blob bg-blue-600" style="width: 600px; height: 600px; top: -300px; left: -200px;"></div>
-    <div class="floating-blob bg-purple-600" style="width: 500px; height: 500px; bottom: -200px; right: -150px;"></div>
-    <div class="floating-blob bg-pink-600" style="width: 400px; height: 400px; top: 30%; left: 70%;"></div>
-    <div class="floating-blob bg-emerald-600" style="width: 350px; height: 350px; top: 60%; left: 10%;"></div>
-    
-    <!-- Main content grid -->
-    <div class="w-full max-w-7xl grid md:grid-cols-2 gap-12 items-center z-10">
-        <!-- Left column: App description -->
-        <div class="text-white space-y-8 p-6">
-            <div class="fade-in motion-element">
-                <h1 class="text-6xl font-extrabold tracking-tight mb-3"><span class="animated-text">Event Dashboard</span></h1>
-                <p class="text-xl text-white/80">Your complete solution for planning and managing events and tasks</p>
+<body>
+    <div class="login-container">
+        <div class="login-image animate-fade-in" style="z-index: 1; animation-delay: 0.1s;">
+            <a href="home.php" class="logo">
+                <span class="material-icons-round">event</span>
+                <span>Event Dashboard</span>
+            </a>
+            
+            <div class="slogan">
+                <strong>Capturing Moments,</strong><br> Creating Memories
             </div>
             
-            <div class="fade-in motion-element delay-200">
-                <div class="h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mb-6"></div>
-                <p class="text-lg text-white/90">
-                    Event Dashboard helps you organize your professional and personal events with powerful tools designed for efficiency and ease of use.
-                </p>
-            </div>
-            
-            <!-- Key features -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-12">
-                <div class="feature-card motion-element fade-in delay-300 p-6 rounded-xl">
-                    <div class="p-3 feature-icon inline-block rounded-lg mb-4">
-                        <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Event Management</h3>
-                    <p class="text-white/70">Create, organize, and track all your events in one place with customizable details.</p>
-                </div>
-                
-                <div class="feature-card motion-element fade-in delay-400 p-6 rounded-xl">
-                    <div class="p-3 feature-icon inline-block rounded-lg mb-4">
-                        <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Task Tracking</h3>
-                    <p class="text-white/70">Manage tasks with priorities, deadlines, and simple completion tracking.</p>
-                </div>
-                
-                <div class="feature-card motion-element fade-in delay-500 p-6 rounded-xl">
-                    <div class="p-3 feature-icon inline-block rounded-lg mb-4">
-                        <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Visual Dashboard</h3>
-                    <p class="text-white/70">Monitor your progress with an intuitive, user-friendly visual dashboard.</p>
-                </div>
-                
-                <div class="feature-card motion-element fade-in delay-600 p-6 rounded-xl">
-                    <div class="p-3 feature-icon inline-block rounded-lg mb-4">
-                        <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Reminders</h3>
-                    <p class="text-white/70">Get notified of upcoming events and pending tasks to stay on schedule.</p>
-                </div>
+            <div class="dots">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
             </div>
         </div>
         
-        <!-- Right column: Login form -->
-        <div class="w-full max-w-md mx-auto">
-            <div class="login-container motion-element rounded-2xl overflow-hidden p-8 space-y-8">
-                <div class="text-center">
-                    <h2 class="text-3xl font-extrabold text-white tracking-tight animated-text">
-                        Event Dashboard
-                    </h2>
-                    <p class="mt-2 text-white/80">
-                        Sign in to your account
-                    </p>
+        <div class="form-container animate-fade-in" style="position: relative; z-index: 2; animation-delay: 0.3s;">
+            <div class="moving-bg"></div>
+            
+            <div class="form-box">
+                <div class="form-header">
+                    <h1>Welcome Back</h1>
+                    <p>Don't have an account? <a href="register.php">Register</a></p>
                 </div>
                 
                 <?php if (!empty($error)): ?>
-                    <div class="bg-red-500/20 text-white p-4 rounded-lg text-center motion-element">
+                    <div class="error-message">
+                        <span class="material-icons-round" style="font-size: 18px;">error_outline</span>
                         <?php echo $error; ?>
                     </div>
                 <?php endif; ?>
                 
-                <form class="space-y-6" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                    <div class="motion-element">
-                        <label for="username" class="block text-sm font-medium text-white/90">Username</label>
-                        <div class="mt-1 relative rounded-lg shadow-sm">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <svg class="h-5 w-5 text-white/50" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-                            </div>
-                            <input id="username" name="username" type="text" required 
-                                class="appearance-none bg-dark-700/50 border border-white/10 text-white block w-full pl-10 px-3 py-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-accent-blue/50 focus:border-transparent">
-                        </div>
+                <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                    <div class="form-group">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required>
                     </div>
-
-                    <div class="motion-element">
-                        <label for="password" class="block text-sm font-medium text-white/90">Password</label>
-                        <div class="mt-1 relative rounded-lg shadow-sm">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <svg class="h-5 w-5 text-white/50" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                </svg>
-                            </div>
-                            <input id="password" name="password" type="password" required
-                                class="appearance-none bg-dark-700/50 border border-white/10 text-white block w-full pl-10 px-3 py-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-accent-blue/50 focus:border-transparent">
-                        </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
                     </div>
-
-                    <div class="motion-element">
-                        <button type="submit" class="btn-primary glow-effect w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-white/25 transform transition-all duration-300 ease-out hover:scale-105">
-                            Sign in
+                    
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" id="remember" name="remember" class="form-check-input">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="#" class="forgot-link">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <span class="material-icons-round">login</span>
+                        Log in
+                    </button>
+                    
+                    <div class="social-login">
+                        <button type="button" class="social-btn">
+                            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
+                        </button>
+                        <button type="button" class="social-btn">
+                            <img src="https://www.svgrepo.com/show/452115/apple.svg" alt="Apple">
                         </button>
                     </div>
-                </form>
-                
-                <div class="text-center motion-element">
-                    <p class="text-sm text-white/70">
-                        Don't have an account? 
-                        <a href="register.php" class="font-medium text-accent-blue hover:text-accent-purple transition-colors duration-300">
-                            Register now
-                        </a>
+                    
+                    <p class="terms-text">
+                        By logging in, you agree to our <a href="#" style="color: var(--primary-light);">Terms & Conditions</a>
                     </p>
-                </div>
+                </form>
             </div>
         </div>
     </div>
     
-    <script src="js/app.js"></script>
     <script>
-        // Use Framer Motion for animations
-        document.addEventListener("DOMContentLoaded", function() {
-            // Initialize animations without requiring Framer Motion's global object
-            
-            // Animate the floating blobs
-            const blobs = document.querySelectorAll('.floating-blob');
-            blobs.forEach((blob, index) => {
-                gsap.to(blob, {
-                    x: Math.random() * 80 - 40,
-                    y: Math.random() * 80 - 40,
-                    duration: 8 + index * 2,
-                    repeat: -1,
-                    yoyo: true,
-                    ease: "sine.inOut"
-                });
-            });
-            
-            // Animate motion elements with GSAP instead of Framer Motion
-            const motionElements = document.querySelectorAll('.motion-element');
-            
-            // Helper function to create staggered animations
-            const createAnimations = (elements) => {
-                elements.forEach((element, index) => {
-                    gsap.fromTo(element, 
-                        { opacity: 0, y: 20 },
-                        { 
-                            opacity: 1, 
-                            y: 0,
-                            duration: 0.6,
-                            ease: "power2.out",
-                            delay: index * 0.15 // Staggered delay
-                        }
-                    );
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set up animated background
+            const movingBg = document.querySelector('.moving-bg');
+            if (movingBg) {
+                movingBg.style.backgroundImage = "url('https://i.pinimg.com/originals/9a/64/55/9a6455ffeee524d0a4c27f4112f7df3a.gif')";
+                
+                // Set random initial position
+                let xPos = Math.random() * 100;
+                let yPos = Math.random() * 100;
+                
+                // Slow movement effect
+                function animateBackground() {
+                    xPos += 0.01;
+                    yPos += 0.01;
                     
-                    // Setup intersection observer for triggering animations when visible
-                    const observer = new IntersectionObserver((entries) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                gsap.to(entry.target, {
-                                    opacity: 1, 
-                                    y: 0,
-                                    duration: 0.6,
-                                    ease: "power2.out"
-                                });
-                                observer.unobserve(entry.target);
-                            }
-                        });
-                    }, { threshold: 0.1 });
+                    if (xPos > 100) xPos = 0;
+                    if (yPos > 100) yPos = 0;
                     
-                    observer.observe(element);
-                });
-            };
-            
-            // Apply animations
-            createAnimations(motionElements);
-            
-            // Enhanced hover effect for login container with GSAP
-            const loginContainer = document.querySelector('.login-container');
-            const handleMouseMove = (e) => {
-                const rect = loginContainer.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
+                    movingBg.style.backgroundPosition = `${xPos}% ${yPos}%`;
+                    requestAnimationFrame(animateBackground);
+                }
                 
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const moveX = (x - centerX) / 20;
-                const moveY = (y - centerY) / 20;
-                
-                gsap.to(loginContainer, {
-                    rotationY: moveX,
-                    rotationX: -moveY,
-                    duration: 0.3,
-                    ease: "power2.out"
-                });
-            };
+                animateBackground();
+            }
             
-            loginContainer.addEventListener('mousemove', handleMouseMove);
+            // Dots animation for slogan slides
+            const dots = document.querySelectorAll('.dot');
+            let currentDot = 0;
             
-            loginContainer.addEventListener('mouseleave', () => {
-                gsap.to(loginContainer, {
-                    rotationY: 0,
-                    rotationX: 0,
-                    duration: 0.5,
-                    ease: "power2.out"
-                });
-            });
-            
-            // Add hover animations for feature cards
-            const featureCards = document.querySelectorAll('.feature-card');
-            featureCards.forEach(card => {
-                card.addEventListener('mouseenter', () => {
-                    gsap.to(card, {
-                        scale: 1.05,
-                        y: -8,
-                        boxShadow: "0 25px 50px rgba(0,0,0,0.3)",
-                        duration: 0.3,
-                        ease: "power2.out"
-                    });
-                });
-                
-                card.addEventListener('mouseleave', () => {
-                    gsap.to(card, {
-                        scale: 1,
-                        y: 0,
-                        boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
-                        duration: 0.3,
-                        ease: "power2.out"
-                    });
-                });
-            });
+            if (dots.length > 0) {
+                setInterval(() => {
+                    dots[currentDot].classList.remove('active');
+                    currentDot = (currentDot + 1) % dots.length;
+                    dots[currentDot].classList.add('active');
+                }, 3000);
+            }
+
+            // Add focus to username field to help users start typing immediately
+            document.getElementById('username').focus();
         });
     </script>
 </body>

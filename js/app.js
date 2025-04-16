@@ -20,9 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize interactive elements
     initInteractiveElements();
     
-    // Initialize form enhancements
-    enhanceForms();
-    
     // Initialize task interaction features
     initTaskFeatures();
     
@@ -211,100 +208,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 card.classList.add('glass-card');
             }
         });
-    }
-    
-    // Enhance forms with modern UI interactions
-    function enhanceForms() {
-        const forms = document.querySelectorAll('form');
-        forms.forEach(form => {
-            form.addEventListener('submit', function(event) {
-                let isValid = true;
-                const requiredInputs = form.querySelectorAll('[required]');
-                
-                requiredInputs.forEach(input => {
-                    if (!input.value.trim()) {
-                        isValid = false;
-                        input.classList.add('border-red-500');
-                        input.classList.add('shake');
-                        
-                        // Remove error styling when the user starts typing
-                        input.addEventListener('input', function() {
-                            input.classList.remove('border-red-500');
-                            input.classList.remove('shake');
-                        }, { once: true });
-                    }
-                });
-                
-                if (!isValid) {
-                    event.preventDefault();
-                    
-                    // Show error message with animation
-                    const errorMsg = document.createElement('div');
-                    errorMsg.className = 'bg-red-500/20 text-white p-3 rounded-lg text-center mb-4 motion-element';
-                    errorMsg.textContent = 'Please fill in all required fields.';
-                    
-                    // Remove any existing error messages
-                    const existingError = form.querySelector('.bg-red-500\\/20');
-                    if (existingError) {
-                        existingError.remove();
-                    }
-                    
-                    form.prepend(errorMsg);
-                    
-                    if (hasFramerMotion) {
-                        const { motion } = window.framerMotion;
-                        motion(errorMsg, {
-                            opacity: [0, 1],
-                            y: [-10, 0],
-                            transition: { duration: 0.3 }
-                        });
-                    }
-                }
-            });
-            
-            // Add label float effect for form inputs
-            const formGroups = form.querySelectorAll('.form-group');
-            formGroups.forEach(group => {
-                const input = group.querySelector('input, textarea, select');
-                const label = group.querySelector('label');
-                
-                if (input && label) {
-                    // Check if input has a value on load
-                    if (input.value !== '') {
-                        label.classList.add('text-xs', 'text-indigo-300', 'transform', 'translate-y-[-12px]');
-                    }
-                    
-                    // Add focus and blur event listeners
-                    input.addEventListener('focus', () => {
-                        label.classList.add('text-xs', 'text-indigo-300', 'transform', 'translate-y-[-12px]');
-                    });
-                    
-                    input.addEventListener('blur', () => {
-                        if (input.value === '') {
-                            label.classList.remove('text-xs', 'text-indigo-300', 'transform', 'translate-y-[-12px]');
-                        }
-                    });
-                }
-            });
-        });
-        
-        // Initialize date pickers if using Flatpickr
-        if (typeof flatpickr !== 'undefined') {
-            flatpickr('input[type="date"]', {
-                dateFormat: 'Y-m-d',
-                allowInput: true,
-                theme: 'dark'
-            });
-            
-            flatpickr('input[type="time"]', {
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: 'H:i',
-                time_24hr: true,
-                allowInput: true,
-                theme: 'dark'
-            });
-        }
     }
     
     // Initialize task features with animations

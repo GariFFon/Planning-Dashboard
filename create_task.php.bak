@@ -101,7 +101,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://unpkg.com/heroicons@2.0.18/dist/heroicons.js"></script>
     <!-- Include Flatpickr for date/time -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <!-- Include GSAP for animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -241,107 +240,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-size: 300% 300%;
             animation: AnimateBackground 5s ease infinite;
         }
-
-        /* Enhanced time picker & date input styles */
-        .datepicker-container {
-            position: relative;
-        }
-        
-        .time-picker-container {
-            position: relative;
-        }
-        
-        .time-picker-container .time-icon,
-        .datepicker-container .calendar-icon {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.6);
-            pointer-events: none;
-        }
-        
-        /* Deadline visualization */
-        .deadline-container {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 1rem;
-            margin-top: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-        }
-        
-        .deadline-visual {
-            position: relative;
-            height: 8px;
-            background: rgba(79, 70, 229, 0.2);
-            border-radius: 4px;
-            margin: 1rem 0;
-        }
-        
-        .deadline-marker {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #ec4899;
-            position: absolute;
-            top: 50%;
-            right: 0;
-            transform: translate(50%, -50%);
-            z-index: 2;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
-        
-        .time-remaining {
-            display: inline-flex;
-            align-items: center;
-            background: rgba(236, 72, 153, 0.2);
-            border: 1px solid rgba(236, 72, 153, 0.3);
-            border-radius: 999px;
-            padding: 0.25rem 0.75rem;
-            font-size: 0.875rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-top: 0.5rem;
-        }
-        
-        .time-remaining svg {
-            margin-right: 6px;
-            color: rgba(236, 72, 153, 1);
-        }
-        
-        /* Flatpickr customization */
-        .flatpickr-calendar {
-            background: rgba(30, 41, 59, 0.9) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
-            backdrop-filter: blur(10px);
-            border-radius: 12px !important;
-        }
-        
-        .flatpickr-day.selected {
-            background: linear-gradient(135deg, #4f46e5, #8b5cf6) !important;
-            border-color: transparent !important;
-        }
-        
-        .flatpickr-day:hover {
-            background: rgba(255, 255, 255, 0.1) !important;
-        }
-        
-        .flatpickr-time input:hover,
-        .flatpickr-time .flatpickr-am-pm:hover,
-        .flatpickr-time input:focus,
-        .flatpickr-time .flatpickr-am-pm:focus {
-            background: rgba(255, 255, 255, 0.1) !important;
-        }
-        
-        .numInputWrapper:hover {
-            background: rgba(255, 255, 255, 0.05) !important;
-        }
-        
-        /* Input styles for date picker */
-        input[type="date"], input[type="time"] {
-            color-scheme: dark;
-        }
     </style>
 </head>
 <body class="min-h-screen relative overflow-x-hidden">
@@ -351,32 +249,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="floating-blob bg-pink-600" style="width: 400px; height: 400px; top: 30%; left: 70%;"></div>
     
     <!-- Floating Navigation -->
-    <nav class="floating-navbar py-4 px-6">
-        <div class="flex justify-between items-center">
-            <!-- Logo & Brand -->
-            <div class="flex items-center">
-                <div class="text-xl font-bold text-white flex items-center">
-                    <span class="gradient-text">EventDash</span>
+    <nav class="floating-navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="dashboard.php" class="text-2xl font-bold gradient-text">Event Dashboard</a>
                 </div>
-            </div>
-            
-            <!-- Navigation Items -->
-            <div class="flex items-center space-x-1">
-                <a href="home.php" class="nav-item text-white/80">Home</a>
-                <a href="dashboard.php" class="nav-item text-white/80">Dashboard</a>
-                <a href="create_event.php" class="nav-item text-white/80">Create Event</a>
-                <a href="create_task.php" class="nav-item text-white/90 font-medium">Add Task</a>
-                <a href="logout.php" class="nav-item text-white/80">Logout</a>
+                <div class="flex items-center space-x-6">
+                    <!-- Navigation Links -->
+                    <a href="create_event.php" class="nav-item text-white hover:text-indigo-200 font-medium transition-all duration-300">Create Event</a>
+                    <a href="create_task.php" class="nav-item text-white hover:text-indigo-200 font-medium transition-all duration-300">Create Task</a>
+                    
+                    <div class="dropdown relative ml-6">
+                        <button type="button" class="flex items-center text-white hover:text-indigo-200 focus:outline-none transition-all duration-300">
+                            <span class="mr-2"><?php echo htmlspecialchars($_SESSION['first_name'] . ' ' . $_SESSION['last_name']); ?></span>
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu hidden absolute right-0 mt-2 w-48 glass-card rounded-lg shadow-xl py-1 z-50">
+                            <a href="profile.php" class="block px-4 py-2 text-sm text-white hover:bg-white/10 transition-all duration-300">Profile</a>
+                            <a href="logout.php" class="block px-4 py-2 text-sm text-white hover:bg-white/10 transition-all duration-300">Sign out</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10 mt-20 pt-8 mb-20">
-        <div class="bg-white/10 backdrop-blur-lg rounded-xl shadow-xl overflow-hidden border border-white/20 transition-all duration-300 hover:shadow-2xl hover:border-white/30">
-            <div class="p-6 border-b border-white/20 bg-gradient-to-r from-indigo-600/20 to-purple-600/20">
-                <h1 class="text-3xl font-bold gradient-text">Create New Task</h1>
-                <p class="text-white/70 mt-2">Add a new task to organize your workload and track progress</p>
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10 mt-20 pt-8">
+        <div class="bg-white/10 backdrop-blur-lg rounded-xl shadow-xl overflow-hidden border border-white/20">
+            <div class="p-6 border-b border-white/20">
+                <h1 class="text-2xl font-bold gradient-text">Create New Task</h1>
             </div>
             
             <div class="p-6">
@@ -417,11 +322,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <select id="event_id" name="event_id"
                                        class="appearance-none bg-white/5 border border-white/10 text-white block w-full px-3 py-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent transition-all duration-300">
                                     <option value="">None</option>
-                                    <?php 
-                                    // Reset events result pointer
-                                    $events->data_seek(0);
-                                    while ($event = $events->fetch_assoc()): 
-                                    ?>
+                                    <?php while ($event = $events->fetch_assoc()): ?>
                                         <option value="<?php echo $event['id']; ?>">
                                             <?php echo htmlspecialchars($event['title']); ?>
                                         </option>
@@ -433,86 +334,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="form-group">
                                 <label for="due_date" class="block text-sm font-medium text-white/90">Due Date</label>
-                                <div class="datepicker-container mt-1">
-                                    <input id="due_date" name="due_date" type="text" placeholder="Select due date"
+                                <div class="mt-1">
+                                    <input id="due_date" name="due_date" type="date"
                                           class="appearance-none bg-white/5 border border-white/10 text-white block w-full px-3 py-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent transition-all duration-300">
-                                    <div class="calendar-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                            <line x1="16" y1="2" x2="16" y2="6"></line>
-                                            <line x1="8" y1="2" x2="8" y2="6"></line>
-                                            <line x1="3" y1="10" x2="21" y2="10"></line>
-                                        </svg>
-                                    </div>
                                 </div>
                             </div>
                             
                             <div class="form-group">
                                 <label for="due_time" class="block text-sm font-medium text-white/90">Due Time</label>
-                                <div class="time-picker-container mt-1">
-                                    <input id="due_time" name="due_time" type="text" placeholder="Select due time"
+                                <div class="mt-1">
+                                    <input id="due_time" name="due_time" type="time"
                                           class="appearance-none bg-white/5 border border-white/10 text-white block w-full px-3 py-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent transition-all duration-300">
-                                    <div class="time-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Deadline Visualization (appears when date/time are selected) -->
-                        <div class="deadline-container mt-6 hidden" id="deadline-visualization">
-                            <h3 class="text-sm font-medium text-white/90 mb-2">Task Deadline</h3>
-                            <div class="deadline-visual">
-                                <div class="deadline-marker"></div>
-                            </div>
-                            <div class="flex justify-between">
-                                <span id="today-label">Today</span>
-                                <span id="deadline-label">Deadline: </span>
-                            </div>
-                            <div class="time-remaining mt-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <polyline points="12 6 12 12 16 14"></polyline>
-                                </svg>
-                                <span id="time-remaining-text">Time remaining: </span>
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label for="priority" class="block text-sm font-medium text-white/90">Priority</label>
-                            <div class="mt-2">
-                                <div class="flex flex-wrap gap-4">
-                                    <label class="priority-option cursor-pointer">
-                                        <input type="radio" name="priority" value="low" class="sr-only">
-                                        <span class="px-4 py-2 rounded-lg bg-blue-600/20 border-2 border-transparent text-blue-300 flex items-center justify-center transition-all duration-300">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-                                            </svg>
-                                            Low
-                                        </span>
-                                    </label>
-                                    <label class="priority-option cursor-pointer">
-                                        <input type="radio" name="priority" value="medium" class="sr-only" checked>
-                                        <span class="px-4 py-2 rounded-lg bg-yellow-600/20 border-2 border-white text-yellow-300 flex items-center justify-center transition-all duration-300">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14" />
-                                            </svg>
-                                            Medium
-                                        </span>
-                                    </label>
-                                    <label class="priority-option cursor-pointer">
-                                        <input type="radio" name="priority" value="high" class="sr-only">
-                                        <span class="px-4 py-2 rounded-lg bg-red-600/20 border-2 border-transparent text-red-300 flex items-center justify-center transition-all duration-300">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                            High
-                                        </span>
-                                    </label>
-                                </div>
+                            <div class="mt-1">
+                                <select id="priority" name="priority"
+                                       class="appearance-none bg-white/5 border border-white/10 text-white block w-full px-3 py-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent transition-all duration-300">
+                                    <option value="low">Low</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="high">High</option>
+                                </select>
                             </div>
                         </div>
                         
@@ -528,7 +373,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <?php endif; ?>
             </div>
         </div>
-    </main>
+</main>
 
     <!-- Modern Footer -->
     <footer class="relative z-10 mt-20">
@@ -673,129 +518,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Priority selector functionality
-            document.querySelectorAll('.priority-option input').forEach(function(radio) {
-                radio.addEventListener('change', function() {
-                    // Remove selected style from all options
-                    document.querySelectorAll('.priority-option span').forEach(function(span) {
-                        span.classList.remove('border-white');
-                        span.classList.add('border-transparent');
-                    });
-                    
-                    // Add selected style to chosen option
-                    if (this.checked) {
-                        const selectedSpan = this.parentElement.querySelector('span');
-                        selectedSpan.classList.remove('border-transparent');
-                        selectedSpan.classList.add('border-white');
-                    }
-                });
-            });
-
             // Initialize date/time pickers
             if (typeof flatpickr !== 'undefined') {
-                // Date picker configuration
-                const dueDatePicker = flatpickr('#due_date', {
+                flatpickr('input[type="date"]', {
                     dateFormat: 'Y-m-d',
                     allowInput: true,
-                    theme: 'dark',
-                    animate: true,
-                    disableMobile: true,
-                    onChange: function() {
-                        updateDeadlineVisual();
-                    }
+                    theme: 'dark'
                 });
                 
-                // Time picker configuration
-                const dueTimePicker = flatpickr('#due_time', {
+                flatpickr('input[type="time"]', {
                     enableTime: true,
                     noCalendar: true,
                     dateFormat: 'H:i',
                     time_24hr: true,
                     allowInput: true,
-                    theme: 'dark',
-                    disableMobile: true,
-                    defaultDate: "23:59",
-                    onChange: function() {
-                        updateDeadlineVisual();
-                    }
+                    theme: 'dark'
                 });
-                
-                // Function to update the deadline visualization
-                function updateDeadlineVisual() {
-                    const dueDate = document.getElementById('due_date').value;
-                    const dueTime = document.getElementById('due_time').value || "23:59";
-                    
-                    if (dueDate) {
-                        // Show the deadline visualization
-                        document.getElementById('deadline-visualization').classList.remove('hidden');
-                        
-                        // Format the dates for display
-                        const now = new Date();
-                        const deadlineDateTime = new Date(`${dueDate}T${dueTime}`);
-                        
-                        // Update the deadline label
-                        document.getElementById('deadline-label').textContent = `Deadline: ${deadlineDateTime.toLocaleString([], {
-                            month: 'short',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                        })}`;
-                        
-                        // Calculate time remaining
-                        const timeRemainingMs = deadlineDateTime - now;
-                        
-                        // Format time remaining text
-                        let timeRemainingText = 'Time remaining: ';
-                        
-                        if (timeRemainingMs <= 0) {
-                            timeRemainingText = 'Deadline passed';
-                            document.querySelector('.time-remaining').classList.add('bg-red-500/20');
-                            document.querySelector('.time-remaining').classList.add('border-red-500/30');
-                            document.querySelector('.time-remaining svg').classList.add('text-red-500');
-                        } else {
-                            const days = Math.floor(timeRemainingMs / (1000 * 60 * 60 * 24));
-                            const hours = Math.floor((timeRemainingMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                            const minutes = Math.floor((timeRemainingMs % (1000 * 60 * 60)) / (1000 * 60));
-                            
-                            if (days > 0) {
-                                timeRemainingText += `${days} day${days !== 1 ? 's' : ''}`;
-                                if (hours > 0) {
-                                    timeRemainingText += ` ${hours} hour${hours !== 1 ? 's' : ''}`;
-                                }
-                            } else if (hours > 0) {
-                                timeRemainingText += `${hours} hour${hours !== 1 ? 's' : ''}`;
-                                if (minutes > 0) {
-                                    timeRemainingText += ` ${minutes} minute${minutes !== 1 ? 's' : ''}`;
-                                }
-                            } else {
-                                timeRemainingText += `${minutes} minute${minutes !== 1 ? 's' : ''}`;
-                            }
-                            
-                            // Adjust colors based on urgency
-                            if (days <= 1) {
-                                if (hours < 12) {
-                                    document.querySelector('.time-remaining').classList.add('bg-orange-500/20');
-                                    document.querySelector('.time-remaining').classList.add('border-orange-500/30');
-                                    document.querySelector('.time-remaining svg').classList.add('text-orange-500');
-                                }
-                            }
-                        }
-                        
-                        document.getElementById('time-remaining-text').textContent = timeRemainingText;
-                        
-                        // Calculate position on timeline
-                        const totalTimeframe = 14 * 24 * 60 * 60 * 1000; // 14 days in ms
-                        const today = new Date();
-                        today.setHours(0, 0, 0, 0);
-                        
-                        const deadline = new Date(deadlineDateTime);
-                        const timeUntilDeadline = deadline - today;
-                        
-                        // Position deadline marker (max is 100%, representing 14 days from now)
-                        const positionPercent = Math.min(100, (timeUntilDeadline / totalTimeframe) * 100);
-                        document.querySelector('.deadline-marker').style.right = `${100 - positionPercent}%`;
-                    }
-                }
             }
 
             // Toggle dropdown menu
@@ -815,66 +553,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 });
             }
             
-            // Add staggered animations for form elements
+            // Add basic animation for form elements
             const formElements = document.querySelectorAll('.form-group');
             formElements.forEach((el, index) => {
-                gsap.fromTo(el, 
-                    { opacity: 0, y: 20 }, 
-                    { 
-                        opacity: 1, 
-                        y: 0, 
-                        duration: 0.5, 
-                        delay: 0.1 + (index * 0.1), 
-                        ease: "power2.out" 
-                    }
-                );
-            });
-            
-            // Animate the form card
-            gsap.fromTo('.glass-card', 
-                { opacity: 0, y: 30 }, 
-                { 
-                    opacity: 1, 
-                    y: 0, 
-                    duration: 0.8, 
-                    ease: "power3.out" 
-                }
-            );
-            
-            // Back to top button animation
-            const backToTopBtn = document.getElementById('back-to-top');
-            if (backToTopBtn) {
-                backToTopBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                });
-                
-                // Show/hide based on scroll position
-                window.addEventListener('scroll', function() {
-                    if (window.scrollY > 300) {
-                        backToTopBtn.classList.add('opacity-100');
-                        backToTopBtn.classList.remove('opacity-0');
-                    } else {
-                        backToTopBtn.classList.add('opacity-0');
-                        backToTopBtn.classList.remove('opacity-100');
-                    }
-                });
-            }
-            
-            // Animate background blobs
-            const blobs = document.querySelectorAll('.floating-blob');
-            blobs.forEach((blob, index) => {
-                gsap.to(blob, {
-                    x: Math.random() * 80 - 40,
-                    y: Math.random() * 80 - 40,
-                    duration: 8 + index * 2,
-                    repeat: -1,
-                    yoyo: true,
-                    ease: "sine.inOut"
-                });
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    el.style.transition = 'all 0.4s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 + (index * 100));
             });
         });
     </script>
