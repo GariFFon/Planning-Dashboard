@@ -7,6 +7,12 @@ require_once 'includes/db_connect.php';
 
 // Initialize variables
 $error = '';
+$success = '';
+
+// Check if account has been deleted
+if (isset($_GET['account_deleted']) && $_GET['account_deleted'] == 1) {
+    $success = "Your account has been successfully deleted.";
+}
 
 // Check if user is already logged in
 if (isset($_SESSION['user_id'])) {
@@ -448,6 +454,13 @@ $page_title = "Login - Event Dashboard";
                     <div class="error-message">
                         <span class="material-icons-round" style="font-size: 18px;">error_outline</span>
                         <?php echo $error; ?>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if (!empty($success)): ?>
+                    <div class="success-message">
+                        <span class="material-icons-round" style="font-size: 18px;">check_circle</span>
+                        <?php echo $success; ?>
                     </div>
                 <?php endif; ?>
                 
