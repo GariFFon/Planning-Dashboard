@@ -475,6 +475,16 @@ $pending_tasks_list = $stmt->get_result();
             transform: translateX(-100%);
             animation: shimmer 3s infinite;
         }
+        
+        /* Hide unused edit and delete icons */
+        .fixed.bottom-6.left-6, 
+        .fixed.bottom-20.right-6,
+        .fixed.bottom-20.left-6,
+        .floating-action-menu,
+        .edit-icon,
+        .delete-icon {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -546,12 +556,6 @@ $pending_tasks_list = $stmt->get_result();
                                 </svg>
                             </button>
                             <div class="dropdown-menu hidden absolute right-0 mt-3 w-48 glass-card rounded-lg shadow-xl py-2 z-50">
-                                <a href="profile.php" class="block px-4 py-3 text-sm text-white hover:bg-white/10 transition-all duration-300 flex items-center">
-                                    <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                    </svg>
-                                    Profile
-                                </a>
                                 <a href="logout.php" class="block px-4 py-3 text-sm text-white hover:bg-white/10 transition-all duration-300 flex items-center">
                                     <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -731,18 +735,7 @@ $pending_tasks_list = $stmt->get_result();
                                                 <h3 class="text-white text-lg font-medium">
                                                     <?php echo htmlspecialchars($event['title']); ?>
                                                 </h3>
-                                                <div class="flex space-x-1">
-                                                    <button class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition duration-150">
-                                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                                        </svg>
-                                                    </button>
-                                                    <button class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition duration-150">
-                                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                        </svg>
-                                                    </button>
-                                                </div>
+                                                <!-- Edit and delete buttons removed -->
                                             </div>
                                             <?php if (!empty($event['description'])): ?>
                                                 <p class="text-white/70 mt-1 text-sm">
@@ -887,18 +880,7 @@ $pending_tasks_list = $stmt->get_result();
                                                         <?php echo ucfirst($task['priority']); ?>
                                                     </span>
                                                 </h3>
-                                                <div class="flex space-x-1">
-                                                    <button class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition duration-150">
-                                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                                        </svg>
-                                                    </button>
-                                                    <button class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition duration-150">
-                                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                        </svg>
-                                                    </button>
-                                                </div>
+                                                <!-- Edit and delete buttons removed -->
                                             </div>
                                             
                                             <?php if (!empty($task['description'])): ?>
@@ -1129,14 +1111,6 @@ $pending_tasks_list = $stmt->get_result();
                                 </a>
                             </li>
                             <li>
-                                <a href="profile.php" class="text-white/70 hover:text-white transition-colors duration-300 flex items-center">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                    </svg>
-                                    Profile
-                                </a>
-                            </li>
-                            <li>
                                 <a href="#" class="text-white/70 hover:text-white transition-colors duration-300 flex items-center">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -1163,13 +1137,13 @@ $pending_tasks_list = $stmt->get_result();
                                 <svg class="w-5 h-5 text-indigo-400 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                 </svg>
-                                <p class="text-white/70">contact@eventdashboard.com</p>
+                                <p class="text-white/70">gaurav.dash05@gmail.com</p>
                             </div>
                             <div class="flex items-start">
                                 <svg class="w-5 h-5 text-indigo-400 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                                 </svg>
-                                <p class="text-white/70">+1 (555) 123-4567</p>
+                                <p class="text-white/70">+91 88XXXXXXXX</p>
                             </div>
                         </div>
                         

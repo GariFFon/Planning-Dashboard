@@ -687,7 +687,7 @@ if ($is_logged_in) {
                     <div class="flex items-center">
                         <div class="h-12 w-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-xl font-bold text-white">SJ</div>
                         <div class="ml-4">
-                            <h4 class="text-white font-semibold">Sarah Johnson</h4>
+                            <h4 class="text-white font-semibold">Akash K Singh</h4>
                             <p class="text-white/60 text-sm">Corporate Event Manager</p>
                         </div>
                     </div>
@@ -727,7 +727,7 @@ if ($is_logged_in) {
                     <div class="flex items-center">
                         <div class="h-12 w-12 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-xl font-bold text-white">MP</div>
                         <div class="ml-4">
-                            <h4 class="text-white font-semibold">Michael Parker</h4>
+                            <h4 class="text-white font-semibold">Udit Bansal</h4>
                             <p class="text-white/60 text-sm">Wedding Planner</p>
                         </div>
                     </div>
@@ -767,7 +767,7 @@ if ($is_logged_in) {
                     <div class="flex items-center">
                         <div class="h-12 w-12 rounded-full bg-gradient-to-r from-blue-500 to-teal-500 flex items-center justify-center text-xl font-bold text-white">AR</div>
                         <div class="ml-4">
-                            <h4 class="text-white font-semibold">Amanda Rodriguez</h4>
+                            <h4 class="text-white font-semibold">Sahil Sharma</h4>
                             <p class="text-white/60 text-sm">Conference Director</p>
                         </div>
                     </div>
@@ -1037,7 +1037,7 @@ if ($is_logged_in) {
                                 <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                             </svg>
-                            <span>support@eventdash.com</span>
+                            <span>gaurav.dash05@gmail.com</span>
                         </li>
                         <li class="text-white/70 flex items-start">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-400 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
