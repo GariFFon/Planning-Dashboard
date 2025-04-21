@@ -579,14 +579,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <span>or continue with</span>
                         </div>
                         
-                        <div class="social-login">
+                        <!-- <div class="social-login">
                             <button type="button" class="social-btn">
                                 <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
                             </button>
                             <button type="button" class="social-btn">
                                 <img src="https://www.svgrepo.com/show/452115/apple.svg" alt="Apple">
                             </button>
-                        </div>
+                        </div> -->
                         
                         <p class="terms-text">
                             By signing up, you agree to our <a href="#" style="color: var(--primary-light);">Terms & Conditions</a> and <a href="#" style="color: var(--primary-light);">Privacy Policy</a>
