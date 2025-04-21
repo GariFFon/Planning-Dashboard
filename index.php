@@ -488,14 +488,14 @@ $page_title = "Login - Event Dashboard";
                         Log in
                     </button>
                     
-                    <div class="social-login">
+                    <!-- <div class="social-login">
                         <button type="button" class="social-btn">
                             <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
                         </button>
                         <button type="button" class="social-btn">
                             <img src="https://www.svgrepo.com/show/452115/apple.svg" alt="Apple">
                         </button>
-                    </div>
+                    </div> -->
                     
                     <p class="terms-text">
                         By logging in, you agree to our <a href="#" style="color: var(--primary-light);">Terms & Conditions</a>
