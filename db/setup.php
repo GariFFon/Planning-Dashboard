@@ -88,25 +88,7 @@ if ($conn->query($sql) === TRUE) {
     echo "Error creating tasks table: " . $conn->error . "<br>";
 }
 
-// Create Participants table (for event attendees)
-$sql = "CREATE TABLE IF NOT EXISTS participants (
-    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    event_id INT(11) NOT NULL,
-    user_id INT(11) NOT NULL,
-    status ENUM('invited', 'confirmed', 'declined') DEFAULT 'invited',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    UNIQUE KEY (event_id, user_id)
-)";
-
-if ($conn->query($sql) === TRUE) {
-    echo "Participants table created successfully<br>";
-} else {
-    echo "Error creating participants table: " . $conn->error . "<br>";
-}
-
-// Close connection
+//close connection
 $conn->close();
 echo "Database setup completed!";
 ?>
