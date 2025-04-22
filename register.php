@@ -28,6 +28,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Password must be at least 6 characters long";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Invalid email format";
+    } elseif (!preg_match("/^[a-zA-Z]+$/", $first_name)) {
+        $error = "First name should only contain alphabetic characters";
+    } elseif (!preg_match("/^[a-zA-Z]+$/", $last_name)) {
+        $error = "Last name should only contain alphabetic characters";
     } else {
         // Check if username or email already exists
         $sql = "SELECT id FROM users WHERE username = ? OR email = ?";
